@@ -1,6 +1,5 @@
 ---
 ## Follow the checklist below and replace this line with your PR description
-Pull Request (PR) guidelines
 
 -   [ ] I've given a good description above that describes the changes and why they're needed.
 -   [ ] I've added instructions on how to test this PR.
