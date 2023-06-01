@@ -46,7 +46,7 @@
   },
   "scripts": {
     "build": "webpack --progress --config webpack.prod.js",
-    "watch": "webpack --watch --progress --config webpack.config.js"
+    "watch": "webpack --watch --progress --config webpack.dev.js"
   },
   "version": "0.1.0"
 }
