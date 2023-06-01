@@ -4,13 +4,9 @@ SwiftPaste is a Chrome extension that enhances your copy-paste workflow. It allo
 
 ## Project Roadmap
 
-We have outlined the following roadmap for SwiftPaste:
+At the current stage of development, the project is in its early phases and the basic features are still being implemented. As a result, there is no specific roadmap available at this time. The focus is on laying the foundation and building the core functionalities of the project.
 
-- Feature X: Add functionality to improve...
-- Enhancement Y: Implement new feature to...
-- Bug Fixes: Address reported issues and improve stability
-
-Feel free to check the [project issues](https://github.com/Fralleee/SwiftPaste/issues) to see if there are any open tasks you would like to contribute to.
+As progress is made and the project matures, a roadmap will be created to outline the planned features and enhancements. This will provide a clear direction for the future development of the project. Stay tuned for updates and announcements as we move forward.
 
 ## Contributing
 
