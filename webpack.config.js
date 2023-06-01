@@ -1,38 +1,92 @@
 const path = require("path")
-const glob = require("glob")
-const CopyWebpackPlugin = require("copy-webpack-plugin")
-
-const fileNames = glob.sync("./src/scripts/**/*.{ts,js}", { nodir: true }).reduce((acc, file) => {
-  const fileName = path.basename(file, path.extname(file))
-  return { ...acc, [fileName]: `./${file}` }
-}, {})
+const CopyPlugin = require("copy-webpack-plugin")
+const HtmlPlugin = require("html-webpack-plugin")
+const tailwindcss = require("tailwindcss")
+const autoprefixer = require("autoprefixer")
+const { CleanWebpackPlugin } = require("clean-webpack-plugin")
+const Dotenv = require("dotenv-webpack")
 
 module.exports = {
-  entry: fileNames,
+  mode: "development",
+  devtool: "cheap-module-source-map",
+  entry: {
+    serviceWorker: path.resolve("src/service-worker.ts"),
+    popup: path.resolve("src/popup/index.tsx"),
+    options: path.resolve("src/options/index.tsx"),
+    contentScript: path.resolve("src/contentScript/index.tsx")
+  },
   module: {
     rules: [
       {
-        test: /\.ts$/,
         use: "ts-loader",
+        test: /\.(tsx|ts)$/,
         exclude: /node_modules/
+      },
+      {
+        test: /\.css$/i,
+        use: [
+          "style-loader",
+          {
+            loader: "css-loader",
+            options: {
+              importLoaders: 1
+            }
+          },
+          {
+            loader: "postcss-loader", // postcss loader needed for tailwindcss
+            options: {
+              postcssOptions: {
+                ident: "postcss",
+                plugins: [tailwindcss, autoprefixer]
+              }
+            }
+          }
+        ]
+      },
+      {
+        type: "assets/resource",
+        test: /\.(png|jpg|jpeg|gif|woff|woff2|tff|eot|svg)$/
       }
     ]
   },
+  plugins: [
+    new Dotenv(),
+    new CleanWebpackPlugin({
+      cleanStaleWebpackAssets: false
+    }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve("src/static"),
+          to: path.resolve("dist")
+        }
+      ]
+    }),
+    ...getHtmlPlugins(["popup", "options", "contentScript"])
+  ],
   resolve: {
-    extensions: [".ts", ".js"]
+    extensions: [".tsx", ".ts", ".js"]
   },
   output: {
     filename: "[name].js",
-    path: path.resolve(__dirname, "dist")
+    path: path.join(__dirname, "dist")
   },
-  plugins: [
-    new CopyWebpackPlugin({
-      patterns: [
-        { from: "manifest.json", to: "." },
-        { from: "src/images/*.png", to: "images/[name][ext]" },
-        { from: "src/html/*.html", to: "[name][ext]" },
-        { from: "src/styles/*.css", to: "[name][ext]" }
-      ]
-    })
-  ]
+  optimization: {
+    splitChunks: {
+      chunks(chunk) {
+        return chunk.name !== "contentScript"
+      }
+    }
+  }
+}
+
+function getHtmlPlugins(chunks) {
+  return chunks.map(
+    chunk =>
+      new HtmlPlugin({
+        title: "Chrome Extension with ReactJs",
+        filename: `${chunk}.html`,
+        chunks: [chunk]
+      })
+  )
 }
