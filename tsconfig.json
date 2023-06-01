@@ -1,11 +1,14 @@
 {
   "compilerOptions": {
-    "target": "ES2017", // specify ECMAScript target version
-    "module": "commonjs", // specify module code generation
-    "outDir": "./dist", // output directory for compiled JavaScript
-    "rootDir": "./src", // root directory of TypeScript source files
-    "strict": true // enable strict type checking
+    "target": "ES2017",
+    "module": "ESNext",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true
   },
-  "include": ["src/**/*.ts"], // files to be compiled
-  "exclude": ["node_modules"] // files to be ignored
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
 }

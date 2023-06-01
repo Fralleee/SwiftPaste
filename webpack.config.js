@@ -2,7 +2,7 @@ const path = require("path")
 const glob = require("glob")
 const CopyWebpackPlugin = require("copy-webpack-plugin")
 
-const fileNames = glob.sync("./src/scripts/*.{ts,js}", { nodir: true }).reduce((acc, file) => {
+const fileNames = glob.sync("./src/scripts/**/*.{ts,js}", { nodir: true }).reduce((acc, file) => {
   const fileName = path.basename(file, path.extname(file))
   return { ...acc, [fileName]: `./${file}` }
 }, {})
