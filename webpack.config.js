@@ -4,7 +4,6 @@ const HtmlPlugin = require("html-webpack-plugin")
 const tailwindcss = require("tailwindcss")
 const autoprefixer = require("autoprefixer")
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
-const Dotenv = require("dotenv-webpack")
 
 module.exports = {
   mode: "development",
@@ -50,7 +49,6 @@ module.exports = {
     ]
   },
   plugins: [
-    new Dotenv(),
     new CleanWebpackPlugin({
       cleanStaleWebpackAssets: false
     }),
