@@ -5,6 +5,8 @@ import { ContentScript } from "./ContentScript"
 
 async function init() {
   const appContainer = document.createElement("div")
+  appContainer.classList.add("swiftPasteRoot")
+
   document.body.appendChild(appContainer)
 
   if (!appContainer) {
