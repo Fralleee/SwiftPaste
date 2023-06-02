@@ -3,15 +3,11 @@ import { createRoot } from "react-dom/client"
 import "../styles/tailwind.css"
 import { ContentScript } from "./ContentScript"
 
-async function init() {
+function init() {
   const appContainer = document.createElement("div")
   appContainer.classList.add("swiftPasteRoot")
 
   document.body.appendChild(appContainer)
-
-  if (!appContainer) {
-    throw new Error("Cannot find appContainer")
-  }
 
   const root = createRoot(appContainer)
   root.render(<ContentScript />)

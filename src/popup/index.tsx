@@ -9,10 +9,6 @@ function init() {
 
   document.body.appendChild(appContainer)
 
-  if (!appContainer) {
-    throw new Error("Cannot find appContainer")
-  }
-
   const root = createRoot(appContainer)
   root.render(<Popup />)
 }
