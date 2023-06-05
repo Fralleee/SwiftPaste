@@ -10,6 +10,7 @@ module.exports = {
   devtool: "cheap-module-source-map",
   entry: {
     serviceWorker: path.resolve("src/service-worker.ts"),
+    inject: path.resolve("src/swiftPastePopup/index.ts"),
     popup: path.resolve("src/popup/index.tsx"),
     options: path.resolve("src/options/index.tsx"),
     contentScript: path.resolve("src/contentScript/index.tsx")

@@ -4,10 +4,10 @@
     "url": "https://github.com/Fralleee/SwiftPaste/issues"
   },
   "dependencies": {
-    "@material/web": "^1.0.0-pre.9",
     "postcss-prefix-selector": "^1.16.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "vanilla-context-menu": "^1.4.2"
   },
   "description": "SwiftPaste is a Chrome extension that enhances your copy-paste workflow. It allows quick access to categorized clipboard data based on context, making tasks like form filling, coding, and communication more efficient. Contributions are welcomed. See the contributing guide for more details.",
   "devDependencies": {

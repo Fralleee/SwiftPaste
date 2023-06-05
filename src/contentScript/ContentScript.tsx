@@ -1,33 +1,35 @@
-import { FunctionComponent, useEffect } from "react"
+import React, { FunctionComponent, useEffect } from "react"
 
 export const ContentScript: FunctionComponent = () => {
-  useEffect(() => {
-    const messageListener = (request, sender, sendResponse) => {
-      if (request.command === "swiftPaste") {
-        const activeElement = document.activeElement as HTMLElement
-        if (!activeElement || activeElement === document.body) {
-          return
-        }
+  // useEffect(() => {
+  //   const handleKeyDown = event => {
+  //     if (event.ctrlKey && event.code === "Space") {
+  //       const activeElement = document.activeElement as HTMLElement
+  //       if (!activeElement || activeElement === document.body) {
+  //         return
+  //       }
 
-        const text = request.data
-        const isInputElement = activeElement.tagName === "INPUT"
-        const isTextAreaElement = activeElement.tagName === "TEXTAREA"
-        const isContentEditable = activeElement.isContentEditable
+  //       const isInputElement = activeElement.tagName === "INPUT"
+  //       const isTextAreaElement = activeElement.tagName === "TEXTAREA"
+  //       const isContentEditable = activeElement.isContentEditable
+  //       const isValidElement = isInputElement || isTextAreaElement || isContentEditable
 
-        if (isInputElement || isTextAreaElement) {
-          ;(activeElement as HTMLInputElement).value += text
-        } else if (isContentEditable) {
-          activeElement.textContent += text
-        }
-      }
-    }
+  //       if (!isValidElement) {
+  //         return
+  //       }
 
-    chrome.runtime.onMessage.addListener(messageListener)
+  //       chrome.storage.sync.get("swiftPasteSuggestions", function (result) {
+  //         console.log(result)
+  //       })
+  //     }
+  //   }
 
-    return () => {
-      chrome.runtime.onMessage.removeListener(messageListener)
-    }
-  }, [])
+  //   window.addEventListener("keydown", handleKeyDown)
+
+  //   return () => {
+  //     window.removeEventListener("keydown", handleKeyDown)
+  //   }
+  // }, [])
 
   return null
 }

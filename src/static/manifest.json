@@ -17,17 +17,11 @@
   "options_page": "options.html",
   "permissions": [
     "storage",
-    "contextMenus"
+    "activeTab",
+    "scripting"
   ],
-  "content_scripts": [
-    {
-      "matches": [
-        "http://*/*",
-        "https://*/*"
-      ],
-      "js": [
-        "contentScript.js"
-      ]
-    }
+  "host_permissions": [
+    "*://*/*",
+    "<all_urls>"
   ]
 }
