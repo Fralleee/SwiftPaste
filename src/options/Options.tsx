@@ -1,6 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd"
+import { themeChange } from "theme-change"
 import Sidebar from "./Sidebar"
+
+const themes = [
+  { label: "light", value: "pastel" },
+  { label: "dark", value: "night" }
+]
 
 function Options() {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([])
@@ -15,6 +21,10 @@ function Options() {
       const suggestions: Suggestion[] = result.swiftPasteSuggestions || []
       setSuggestions(suggestions)
     })
+  }, [])
+
+  useEffect(() => {
+    themeChange(false)
   }, [])
 
   const handleDragEnd = event => {
@@ -86,7 +96,10 @@ function Options() {
   return (
     <div className="flex w-full h-full">
       <Sidebar />
-      <main className="prose ml-12 mt-8 px-4 flex-1 max-w-5xl ">
+      <main className="prose relative ml-12 mt-8 px-4 flex-1 max-w-5xl ">
+        <div className="absolute top-2 right-2">
+          <input type="checkbox" className="toggle toggle-md" data-toggle-theme="pastel,night" data-act-class="ACTIVECLASS" />
+        </div>
         <div className="flex gap-2">
           <button
             tabIndex={0}
@@ -129,7 +142,7 @@ function Options() {
                               {...provider.draggableProps}
                               ref={provider.innerRef}
                               style={provider.draggableProps.style}>
-                              <td className="flex justify-center w-20" {...provider.dragHandleProps} tabIndex={-1}>
+                              <td className="flex justify-center w-20 select-none" {...provider.dragHandleProps} tabIndex={-1}>
                                 =
                               </td>
                               <td className="p-0">

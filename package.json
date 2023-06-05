@@ -8,6 +8,7 @@
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0",
+    "theme-change": "^2.5.0",
     "vanilla-context-menu": "^1.4.2"
   },
   "description": "SwiftPaste is a Chrome extension that enhances your copy-paste workflow. It allows quick access to categorized clipboard data based on context, making tasks like form filling, coding, and communication more efficient. Contributions are welcomed. See the contributing guide for more details.",

@@ -3,7 +3,7 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   purge: ["./src/**/*.{js,jsx,ts,tsx}"], // update this line
   daisyui: {
-    themes: ["cupcake"]
+    themes: ["pastel", "night"]
   },
   plugins: [require("@tailwindcss/typography"), require("daisyui")]
 }
