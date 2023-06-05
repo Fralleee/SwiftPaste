@@ -12,8 +12,7 @@ module.exports = {
     serviceWorker: path.resolve("src/service-worker.ts"),
     inject: path.resolve("src/inject/index.ts"),
     popup: path.resolve("src/popup/index.tsx"),
-    options: path.resolve("src/options/index.tsx"),
-    contentScript: path.resolve("src/contentScript/index.tsx")
+    options: path.resolve("src/options/index.tsx")
   },
   module: {
     rules: [
@@ -61,7 +60,7 @@ module.exports = {
         }
       ]
     }),
-    ...getHtmlPlugins(["popup", "options", "contentScript"])
+    ...getHtmlPlugins(["popup", "options"])
   ],
   resolve: {
     extensions: [".tsx", ".ts", ".js"]

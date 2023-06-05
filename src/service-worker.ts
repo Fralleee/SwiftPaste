@@ -12,7 +12,6 @@ chrome.storage.sync.set({ swiftPasteSuggestions }).then(() => {
 
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
   if (changeInfo.status === "complete" && tab.active) {
-    console.log("New tab")
     chrome.scripting.executeScript({ target: { tabId }, files: ["inject.js"] }).catch(error => {
       console.log(`Could not execute script: ${error}`)
     })
