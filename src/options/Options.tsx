@@ -110,7 +110,7 @@ function Options() {
         <div className="flex gap-2">
           <button
             tabIndex={0}
-            className={`btn btn-sm text-xs w-32 ${isFormDirty ? "btn-primary" : "btn-neutral"}`}
+            className={`btn btn-sm text-xs w-32 ${isFormDirty ? "btn-info" : "btn-neutral"}`}
             onClick={handleSaveButtonClick}
             disabled={!isFormDirty}>
             Save changes

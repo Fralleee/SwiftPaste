@@ -11,6 +11,12 @@ function init() {
 
   const root = createRoot(appContainer)
   root.render(<Options />)
+
+  const faviconLink = document.createElement("link")
+  faviconLink.rel = "icon"
+  faviconLink.type = "image/png"
+  faviconLink.href = "images/favicon.png"
+  document.head.appendChild(faviconLink)
 }
 
 init()
