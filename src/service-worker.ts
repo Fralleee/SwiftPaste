@@ -1,13 +1,28 @@
-const swiftPasteSuggestions = [
-  { label: "Name", value: "Roland Chelwing-Grzybowski" },
-  { label: "Email", value: "jolleee@hotmail.com" },
-  { label: "Company", value: "Stack Overflow" },
-  { label: "LinkedIn profile", value: "https://www.linkedin.com/in/fralle" },
-  { label: "GitHub profile", value: "https://www.github.com/fralleee" }
+const defaultSuggestions = [
+  { label: "Name", value: "John Doe" },
+  { label: "Email", value: "john_the_doe@gmail.com" },
+  { label: "Website URL", value: "https://www.fralle.net" }
 ]
 
-chrome.storage.sync.set({ swiftPasteSuggestions }).then(() => {
-  console.log("Value is set")
+chrome.runtime.onInstalled.addListener(details => {
+  if (details.reason === "install") {
+    chrome.storage.sync.get("swiftPasteSuggestions", result => {
+      if (chrome.runtime.lastError) {
+        console.error(chrome.runtime.lastError.message)
+        return
+      }
+      const existingSuggestions = result.swiftPasteSuggestions || []
+      if (existingSuggestions.length === 0) {
+        chrome.storage.sync.set({ swiftPasteSuggestions: defaultSuggestions }, () => {
+          if (chrome.runtime.lastError) {
+            console.error(chrome.runtime.lastError.message)
+            return
+          }
+          console.log("Value is set")
+        })
+      }
+    })
+  }
 })
 
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {

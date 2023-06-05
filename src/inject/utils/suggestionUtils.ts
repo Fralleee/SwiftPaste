@@ -57,6 +57,7 @@ export function selectNextSuggestion(
 function selectSuggestion(suggestionItems: NodeListOf<HTMLElement>, selectedIndex: number) {
   suggestionItems.forEach((suggestionItem, index) => {
     if (index === selectedIndex) {
+      suggestionItem.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" })
       suggestionItem.classList.add("selected")
     } else {
       suggestionItem.classList.remove("selected")

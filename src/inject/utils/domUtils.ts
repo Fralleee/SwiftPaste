@@ -3,9 +3,13 @@ export function replaceValue(value: string, inputElement: HTMLInputElement | HTM
   inputElement.focus()
 }
 
-export function removeRoot(rootContainer: HTMLDivElement) {
+export function removeRoot(rootContainer: HTMLElement, disconnectObserver: Function | null) {
   if (rootContainer.parentElement) {
     document.body.removeChild(rootContainer)
+  }
+
+  if (disconnectObserver) {
+    disconnectObserver()
   }
 }
 
@@ -13,7 +17,7 @@ export function populateSuggestionList(
   suggestionList: HTMLDivElement,
   suggestions: Suggestion[],
   activeElement: HTMLInputElement | HTMLTextAreaElement,
-  rootContainer: HTMLDivElement
+  rootContainer: HTMLElement
 ) {
   suggestionList.innerHTML = ""
   suggestions.forEach((suggestion, index) => {
@@ -32,7 +36,7 @@ export function populateSuggestionList(
       const value = suggestionElement.getAttribute("data-value")
       if (value) {
         replaceValue(value, activeElement)
-        removeRoot(rootContainer)
+        removeRoot(rootContainer, null)
       }
     })
     if (index === 0) {
@@ -48,4 +52,34 @@ export function isValidElement(element: HTMLInputElement | HTMLTextAreaElement):
   const isTextAreaElement = elementTagName === "TEXTAREA"
   const isContentEditable = element.isContentEditable
   return isInputElement || isTextAreaElement || isContentEditable
+}
+
+export function createObserver(
+  activeElement: HTMLElement,
+  removeRoot: (rootContainer: HTMLElement, disconnectObserver: Function | null) => void,
+  rootContainer: HTMLElement
+) {
+  // Start observing after rootContainer is added to document.body
+  const observer = new MutationObserver(mutationsList => {
+    for (let mutation of mutationsList) {
+      if (mutation.type === "childList") {
+        // check if activeElement still exists in document
+        if (!document.contains(activeElement)) {
+          removeRoot(rootContainer, null)
+          observer.disconnect() // Stop observing
+          break
+        }
+      }
+    }
+  })
+
+  // Configure to listen to child removals in the document
+  observer.observe(document, { childList: true, subtree: true })
+
+  // Function to stop observation
+  const disconnect = () => {
+    observer.disconnect()
+  }
+
+  return disconnect
 }

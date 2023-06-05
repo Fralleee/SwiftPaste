@@ -1,4 +1,6 @@
 const cssStyles = `
+  @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
   :host {
     --swiftPastePopup-background: #fff;
     --swiftPastePopup-border: #e2e8f0;
@@ -24,6 +26,7 @@ const cssStyles = `
   }
 
   .swiftPastePopup__container {
+    font-family: 'Inter', sans-serif;
     position: fixed;
     background-color: var(--swiftPastePopup-background);
     border: 1px solid var(--swiftPastePopup-border);
@@ -32,6 +35,7 @@ const cssStyles = `
     width: 200px;
     color: var(--swiftPastePopup-text);
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    -webkit-font-smoothing antialiased;
   }
 
   .swiftPastePopup__input {
@@ -45,7 +49,8 @@ const cssStyles = `
   }
 
   .swiftPastePopup__suggestions {
-    margin-top: 8px;
+    max-height: 250px;
+    overflow-y: scroll;
   }
 
   .swiftPastePopup__suggestion {

@@ -1,5 +1,5 @@
 import cssStyles from "../styles/popupStyles"
-import { removeRoot, replaceValue, populateSuggestionList } from "../utils/domUtils"
+import { removeRoot, replaceValue, populateSuggestionList, createObserver } from "../utils/domUtils"
 import { calculatePosition } from "../utils/positionUtils"
 import { selectPreviousSuggestion, selectNextSuggestion, fuzzySearch } from "../utils/suggestionUtils"
 import Container from "./Container"
@@ -13,6 +13,7 @@ export function SuggestionBox(suggestions: Suggestion[], activeElement: HTMLInpu
   const inputField = InputField()
   const suggestionList = SuggestionList()
 
+  let disconnectObserver
   let selectedSuggestionIndex = 0
   let filterText = ""
 
@@ -29,7 +30,7 @@ export function SuggestionBox(suggestions: Suggestion[], activeElement: HTMLInpu
   function handlePopupKeyDown(event: KeyboardEvent) {
     switch (event.code) {
       case "Escape":
-        removeRoot(rootContainer)
+        removeRoot(rootContainer, disconnectObserver)
         event.preventDefault()
         break
       case "Enter":
@@ -49,7 +50,7 @@ export function SuggestionBox(suggestions: Suggestion[], activeElement: HTMLInpu
 
   function handleDocumentClickOutside(event: MouseEvent) {
     if (!rootContainer.contains(event.target as Node)) {
-      removeRoot(rootContainer)
+      removeRoot(rootContainer, disconnectObserver)
     }
   }
 
@@ -62,7 +63,7 @@ export function SuggestionBox(suggestions: Suggestion[], activeElement: HTMLInpu
       console.log({ value })
       if (value) {
         replaceValue(value, activeElement)
-        removeRoot(rootContainer)
+        removeRoot(rootContainer, disconnectObserver)
       }
     }
   }
@@ -88,13 +89,11 @@ export function SuggestionBox(suggestions: Suggestion[], activeElement: HTMLInpu
   shadowRoot.appendChild(container)
 
   if (expandsUpward) {
-    console.log("Expands Upward")
     container.appendChild(suggestionList)
     container.appendChild(inputField)
     container.style.left = `${offsetX}px`
     container.style.bottom = `${offsetY}px`
   } else {
-    console.log("Expands Downward")
     container.appendChild(inputField)
     container.appendChild(suggestionList)
     container.style.left = `${offsetX}px`
@@ -102,6 +101,7 @@ export function SuggestionBox(suggestions: Suggestion[], activeElement: HTMLInpu
   }
 
   document.body.appendChild(rootContainer)
+  disconnectObserver = createObserver(activeElement, removeRoot, rootContainer)
 
   inputField.focus()
 }

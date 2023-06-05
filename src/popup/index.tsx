@@ -5,7 +5,7 @@ import Popup from "./Popup"
 
 function init() {
   const appContainer = document.createElement("div")
-  appContainer.classList.add("swiftPasteRoot")
+  appContainer.id = "root"
 
   document.body.appendChild(appContainer)
 
