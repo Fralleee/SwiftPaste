@@ -1,22 +1,27 @@
-import cssStyles from "./popupStyles"
-import { createInputField, createPopupContainer, createSuggestionList } from "./componentFactory"
-import { handleCtrlSpaceKeyDown } from "./eventhandlers"
-import { insertValue, removePopup, populateSuggestions } from "./popupUtils"
-import { selectNextSuggestion, selectPreviousSuggestion } from "./selectSuggestion"
-import fuzzySearch from "./fuzzySearch"
+import cssStyles from "../styles/popupStyles"
+import {
+  insertValue,
+  populateSuggestions,
+  removePopup,
+  fuzzySearch,
+  calculatePosition,
+  selectNextSuggestion,
+  selectPreviousSuggestion
+} from "../utils"
+import Container from "./Container"
+import InputField from "./InputField"
+import SuggestionList from "./SuggestionList"
 
-window.addEventListener("keydown", handleCtrlSpaceKeyDown)
-
-export function activatePopup(suggestions: Suggestion[], position: DOMRect, activeElement: HTMLInputElement | HTMLTextAreaElement) {
-  const popupContainer = createPopupContainer(position)
-  const inputField = createInputField()
-  const suggestionList = createSuggestionList()
+export function SuggestionBox(suggestions: Suggestion[], activeElement: HTMLInputElement | HTMLTextAreaElement) {
+  const container = Container()
+  const inputField = InputField()
+  const suggestionList = SuggestionList()
 
   let selectedSuggestionIndex = 0
   let filterText = ""
 
   inputField.addEventListener("input", handleInputChange)
-  popupContainer.addEventListener("keydown", handlePopupKeyDown)
+  container.addEventListener("keydown", handlePopupKeyDown)
   document.addEventListener("click", handleDocumentClickOutside)
 
   function handleInputChange() {
@@ -28,7 +33,7 @@ export function activatePopup(suggestions: Suggestion[], position: DOMRect, acti
     switch (event.code) {
       case "Escape":
         event.preventDefault()
-        removePopup(popupContainer)
+        removePopup(container)
         break
       case "Enter":
         event.preventDefault()
@@ -46,8 +51,8 @@ export function activatePopup(suggestions: Suggestion[], position: DOMRect, acti
   }
 
   function handleDocumentClickOutside(event: MouseEvent) {
-    if (!popupContainer.contains(event.target as Node)) {
-      removePopup(popupContainer)
+    if (!container.contains(event.target as Node)) {
+      removePopup(container)
     }
   }
 
@@ -56,7 +61,7 @@ export function activatePopup(suggestions: Suggestion[], position: DOMRect, acti
     if (selectedSuggestion) {
       const value = selectedSuggestion.getAttribute("data-value")
       if (value) {
-        insertValue(value, activeElement, popupContainer)
+        insertValue(value, activeElement, container)
       }
     }
   }
@@ -67,13 +72,13 @@ export function activatePopup(suggestions: Suggestion[], position: DOMRect, acti
 
   function filterSuggestions() {
     const filteredSuggestions = fuzzySearch(filterText, suggestions)
-    populateSuggestions(suggestionList, filteredSuggestions, activeElement, popupContainer)
+    populateSuggestions(suggestionList, filteredSuggestions, activeElement, container)
   }
 
-  populateSuggestions(suggestionList, suggestions, activeElement, popupContainer)
+  populateSuggestions(suggestionList, suggestions, activeElement, container)
 
   // Create a shadow root and attach it to the popup container
-  const shadowRoot = popupContainer.attachShadow({ mode: "open" })
+  const shadowRoot = container.attachShadow({ mode: "open" })
 
   // Create a style element and set its content to the CSS styles
   const styleElement = document.createElement("style")
@@ -85,7 +90,11 @@ export function activatePopup(suggestions: Suggestion[], position: DOMRect, acti
   shadowRoot.appendChild(suggestionList)
 
   // Append the popup container to the document body
-  document.body.appendChild(popupContainer)
+  document.body.appendChild(container)
+
+  const position = calculatePosition(activeElement.getBoundingClientRect(), container)
+  container.style.left = `${position.left}px`
+  container.style.top = `${position.top}px`
 
   inputField.focus()
 }
