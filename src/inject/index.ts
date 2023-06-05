@@ -1,5 +1,5 @@
-import { isValidElement } from "./utils"
 import { SuggestionBox } from "./components/SuggestionBox"
+import { isValidElement } from "./utils/domUtils"
 
 window.addEventListener("keydown", activateSuggestionBox)
 

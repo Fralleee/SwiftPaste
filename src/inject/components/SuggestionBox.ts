@@ -1,13 +1,7 @@
 import cssStyles from "../styles/popupStyles"
-import {
-  insertValue,
-  populateSuggestions,
-  removePopup,
-  fuzzySearch,
-  calculatePosition,
-  selectNextSuggestion,
-  selectPreviousSuggestion
-} from "../utils"
+import { removeContainer, insertValue, populateSuggestionList } from "../utils/domUtils"
+import { calculatePosition } from "../utils/positionUtils"
+import { selectPreviousSuggestion, selectNextSuggestion, fuzzySearch } from "../utils/suggestionUtils"
 import Container from "./Container"
 import InputField from "./InputField"
 import SuggestionList from "./SuggestionList"
@@ -33,7 +27,7 @@ export function SuggestionBox(suggestions: Suggestion[], activeElement: HTMLInpu
     switch (event.code) {
       case "Escape":
         event.preventDefault()
-        removePopup(container)
+        removeContainer(container)
         break
       case "Enter":
         event.preventDefault()
@@ -52,7 +46,7 @@ export function SuggestionBox(suggestions: Suggestion[], activeElement: HTMLInpu
 
   function handleDocumentClickOutside(event: MouseEvent) {
     if (!container.contains(event.target as Node)) {
-      removePopup(container)
+      removeContainer(container)
     }
   }
 
@@ -72,10 +66,10 @@ export function SuggestionBox(suggestions: Suggestion[], activeElement: HTMLInpu
 
   function filterSuggestions() {
     const filteredSuggestions = fuzzySearch(filterText, suggestions)
-    populateSuggestions(suggestionList, filteredSuggestions, activeElement, container)
+    populateSuggestionList(suggestionList, filteredSuggestions, activeElement, container)
   }
 
-  populateSuggestions(suggestionList, suggestions, activeElement, container)
+  populateSuggestionList(suggestionList, suggestions, activeElement, container)
 
   // Create a shadow root and attach it to the popup container
   const shadowRoot = container.attachShadow({ mode: "open" })
