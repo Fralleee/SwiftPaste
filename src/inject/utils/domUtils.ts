@@ -1,12 +1,11 @@
-export function replaceValue(value: string, inputElement: HTMLInputElement | HTMLTextAreaElement, popupContainer: HTMLDivElement) {
+export function replaceValue(value: string, inputElement: HTMLInputElement | HTMLTextAreaElement) {
   inputElement.value = value
   inputElement.focus()
-  removeContainer(popupContainer)
 }
 
-export function removeContainer(container: HTMLDivElement) {
-  if (container.parentElement) {
-    document.body.removeChild(container)
+export function removeRoot(rootContainer: HTMLDivElement) {
+  if (rootContainer.parentElement) {
+    document.body.removeChild(rootContainer)
   }
 }
 
@@ -14,7 +13,7 @@ export function populateSuggestionList(
   suggestionList: HTMLDivElement,
   suggestions: Suggestion[],
   activeElement: HTMLInputElement | HTMLTextAreaElement,
-  container: HTMLDivElement
+  rootContainer: HTMLDivElement
 ) {
   suggestionList.innerHTML = ""
   suggestions.forEach((suggestion, index) => {
@@ -32,7 +31,8 @@ export function populateSuggestionList(
     suggestionElement.addEventListener("click", () => {
       const value = suggestionElement.getAttribute("data-value")
       if (value) {
-        replaceValue(value, activeElement, container)
+        replaceValue(value, activeElement)
+        removeRoot(rootContainer)
       }
     })
     if (index === 0) {

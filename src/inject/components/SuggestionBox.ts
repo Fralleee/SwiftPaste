@@ -1,5 +1,5 @@
 import cssStyles from "../styles/popupStyles"
-import { removeContainer, replaceValue, populateSuggestionList } from "../utils/domUtils"
+import { removeRoot, replaceValue, populateSuggestionList } from "../utils/domUtils"
 import { calculatePosition } from "../utils/positionUtils"
 import { selectPreviousSuggestion, selectNextSuggestion, fuzzySearch } from "../utils/suggestionUtils"
 import Container from "./Container"
@@ -7,6 +7,8 @@ import InputField from "./InputField"
 import SuggestionList from "./SuggestionList"
 
 export function SuggestionBox(suggestions: Suggestion[], activeElement: HTMLInputElement | HTMLTextAreaElement) {
+  const rootContainer = document.createElement("div")
+  rootContainer.classList.add("SwiftPaste")
   const container = Container()
   const inputField = InputField()
   const suggestionList = SuggestionList()
@@ -18,7 +20,8 @@ export function SuggestionBox(suggestions: Suggestion[], activeElement: HTMLInpu
   container.addEventListener("keydown", handlePopupKeyDown)
   document.addEventListener("click", handleDocumentClickOutside)
 
-  function handleInputChange() {
+  function handleInputChange(event) {
+    event.preventDefault()
     filterText = inputField.value.toLowerCase()
     filterSuggestions()
   }
@@ -26,27 +29,27 @@ export function SuggestionBox(suggestions: Suggestion[], activeElement: HTMLInpu
   function handlePopupKeyDown(event: KeyboardEvent) {
     switch (event.code) {
       case "Escape":
+        removeRoot(rootContainer)
         event.preventDefault()
-        removeContainer(container)
         break
       case "Enter":
-        event.preventDefault()
         handleSuggestionSelection()
+        event.preventDefault()
         break
       case "ArrowUp":
-        event.preventDefault()
         selectPreviousSuggestion(suggestionList, selectedSuggestionIndex, updateSelectedSuggestionIndex)
+        event.preventDefault()
         break
       case "ArrowDown":
-        event.preventDefault()
         selectNextSuggestion(suggestionList, selectedSuggestionIndex, updateSelectedSuggestionIndex)
+        event.preventDefault()
         break
     }
   }
 
   function handleDocumentClickOutside(event: MouseEvent) {
-    if (!container.contains(event.target as Node)) {
-      removeContainer(container)
+    if (!rootContainer.contains(event.target as Node)) {
+      removeRoot(rootContainer)
     }
   }
 
@@ -58,7 +61,8 @@ export function SuggestionBox(suggestions: Suggestion[], activeElement: HTMLInpu
       const value = selectedSuggestion.getAttribute("data-value")
       console.log({ value })
       if (value) {
-        replaceValue(value, activeElement, container)
+        replaceValue(value, activeElement)
+        removeRoot(rootContainer)
       }
     }
   }
@@ -69,29 +73,35 @@ export function SuggestionBox(suggestions: Suggestion[], activeElement: HTMLInpu
 
   function filterSuggestions() {
     const filteredSuggestions = fuzzySearch(filterText, suggestions)
-    populateSuggestionList(suggestionList, filteredSuggestions, activeElement, container)
+    populateSuggestionList(suggestionList, filteredSuggestions, activeElement, rootContainer)
   }
 
-  populateSuggestionList(suggestionList, suggestions, activeElement, container)
+  populateSuggestionList(suggestionList, suggestions, activeElement, rootContainer)
 
-  // Create a shadow root and attach it to the popup container
-  const shadowRoot = container.attachShadow({ mode: "open" })
-
-  // Create a style element and set its content to the CSS styles
+  const shadowRoot = rootContainer.attachShadow({ mode: "open" })
   const styleElement = document.createElement("style")
   styleElement.textContent = cssStyles
 
-  // Append the style element, input field, and suggestion list to the shadow root
+  const { offsetX, offsetY, expandsUpward } = calculatePosition(activeElement.getBoundingClientRect(), container)
+
   shadowRoot.appendChild(styleElement)
-  shadowRoot.appendChild(inputField)
-  shadowRoot.appendChild(suggestionList)
+  shadowRoot.appendChild(container)
 
-  // Append the popup container to the document body
-  document.body.appendChild(container)
+  if (expandsUpward) {
+    console.log("Expands Upward")
+    container.appendChild(suggestionList)
+    container.appendChild(inputField)
+    container.style.left = `${offsetX}px`
+    container.style.bottom = `${offsetY}px`
+  } else {
+    console.log("Expands Downward")
+    container.appendChild(inputField)
+    container.appendChild(suggestionList)
+    container.style.left = `${offsetX}px`
+    container.style.top = `${offsetY}px`
+  }
 
-  const position = calculatePosition(activeElement.getBoundingClientRect(), container)
-  container.style.left = `${position.left}px`
-  container.style.top = `${position.top}px`
+  document.body.appendChild(rootContainer)
 
   inputField.focus()
 }
