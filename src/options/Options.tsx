@@ -44,8 +44,15 @@ function Options() {
     setFormDirty(true)
   }
 
+  const validateSuggestion = (suggestion: Suggestion): Suggestion | null => {
+    if (suggestion.value && suggestion.label) {
+      return suggestion
+    }
+    return null
+  }
+
   const handleSaveButtonClick = () => {
-    chrome.storage.sync.set({ swiftPasteSuggestions: suggestions }, () => {
+    chrome.storage.sync.set({ swiftPasteSuggestions: suggestions.map(validateSuggestion).filter(Boolean) }, () => {
       if (chrome.runtime.lastError) {
         console.error(chrome.runtime.lastError.message)
         return
