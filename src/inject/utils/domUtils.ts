@@ -1,5 +1,5 @@
-export function insertValue(value: string, inputElement: HTMLInputElement | HTMLTextAreaElement, popupContainer: HTMLDivElement) {
-  inputElement.value += value
+export function replaceValue(value: string, inputElement: HTMLInputElement | HTMLTextAreaElement, popupContainer: HTMLDivElement) {
+  inputElement.value = value
   inputElement.focus()
   removeContainer(popupContainer)
 }
@@ -32,7 +32,7 @@ export function populateSuggestionList(
     suggestionElement.addEventListener("click", () => {
       const value = suggestionElement.getAttribute("data-value")
       if (value) {
-        insertValue(value, activeElement, container)
+        replaceValue(value, activeElement, container)
       }
     })
     if (index === 0) {

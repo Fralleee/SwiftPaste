@@ -1,5 +1,5 @@
 import cssStyles from "../styles/popupStyles"
-import { removeContainer, insertValue, populateSuggestionList } from "../utils/domUtils"
+import { removeContainer, replaceValue, populateSuggestionList } from "../utils/domUtils"
 import { calculatePosition } from "../utils/positionUtils"
 import { selectPreviousSuggestion, selectNextSuggestion, fuzzySearch } from "../utils/suggestionUtils"
 import Container from "./Container"
@@ -51,11 +51,14 @@ export function SuggestionBox(suggestions: Suggestion[], activeElement: HTMLInpu
   }
 
   function handleSuggestionSelection() {
-    const selectedSuggestion = document.querySelector(".swiftPastePopup__suggestion.selected") as HTMLDivElement | null
+    console.log("handleSuggestionSelection")
+    const selectedSuggestion = suggestionList.querySelector(".swiftPastePopup__suggestion.selected") as HTMLDivElement | null
+    console.log({ selectedSuggestion })
     if (selectedSuggestion) {
       const value = selectedSuggestion.getAttribute("data-value")
+      console.log({ value })
       if (value) {
-        insertValue(value, activeElement, container)
+        replaceValue(value, activeElement, container)
       }
     }
   }
