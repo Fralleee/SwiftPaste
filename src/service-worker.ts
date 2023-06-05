@@ -18,7 +18,7 @@ chrome.runtime.onInstalled.addListener(details => {
             console.error(chrome.runtime.lastError.message)
             return
           }
-          console.log("Value is set")
+          console.log("Default values have been set.")
         })
       }
     })

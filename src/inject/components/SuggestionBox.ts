@@ -55,12 +55,9 @@ export function SuggestionBox(suggestions: Suggestion[], activeElement: HTMLInpu
   }
 
   function handleSuggestionSelection() {
-    console.log("handleSuggestionSelection")
     const selectedSuggestion = suggestionList.querySelector(".swiftPastePopup__suggestion.selected") as HTMLDivElement | null
-    console.log({ selectedSuggestion })
     if (selectedSuggestion) {
       const value = selectedSuggestion.getAttribute("data-value")
-      console.log({ value })
       if (value) {
         replaceValue(value, activeElement)
         removeRoot(rootContainer, disconnectObserver)

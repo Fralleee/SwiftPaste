@@ -27,12 +27,12 @@ function Options() {
     setFormDirty(true)
   }
 
-  const handleFieldChange = useCallback((field: "label" | "value", index: number, newValue: string) => {
+  const handleFieldChange = (field: "label" | "value", index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setSuggestions(prevSuggestions =>
-      prevSuggestions.map((suggestion, i) => (i === index ? { ...suggestion, [field]: newValue } : suggestion))
+      prevSuggestions.map((suggestion, i) => (i === index ? { ...suggestion, [field]: event.target.value } : suggestion))
     )
     setFormDirty(true)
-  }, [])
+  }
 
   const handleSaveButtonClick = () => {
     chrome.storage.sync.set({ swiftPasteSuggestions: suggestions }, () => {
@@ -40,7 +40,18 @@ function Options() {
         console.error(chrome.runtime.lastError.message)
         return
       }
-      console.log("Suggestions saved!")
+      setFormDirty(false)
+    })
+  }
+
+  const handleResetButtonClick = () => {
+    chrome.storage.sync.get("swiftPasteSuggestions", result => {
+      if (chrome.runtime.lastError) {
+        console.error(chrome.runtime.lastError.message)
+        return
+      }
+      const suggestions: Suggestion[] = result.swiftPasteSuggestions || []
+      setSuggestions(suggestions)
       setFormDirty(false)
     })
   }
@@ -75,15 +86,21 @@ function Options() {
   return (
     <div className="flex w-full h-full">
       <Sidebar />
-      <main className="prose ml-8 px-4 py-8 flex-1 max-w-3xl">
-        <div className="flex mt-8 gap-4 justify-between p-4">
-          <h1 className="m-0">Suggestions</h1>
+      <main className="prose ml-12 mt-8 px-4 flex-1 max-w-5xl ">
+        <div className="flex gap-2">
           <button
             tabIndex={0}
-            className={`btn w-48 ${isFormDirty ? "btn-warning" : "btn-accent"}`}
+            className={`btn btn-sm text-xs w-32 ${isFormDirty ? "btn-primary" : "btn-neutral"}`}
             onClick={handleSaveButtonClick}
             disabled={!isFormDirty}>
-            {isFormDirty ? "Save Changes" : "No changes"}
+            Save changes
+          </button>
+          <button
+            tabIndex={0}
+            className={`btn btn-sm text-xs w-32 ${isFormDirty ? "btn-warning" : "btn-neutral"}`}
+            onClick={handleResetButtonClick}
+            disabled={!isFormDirty}>
+            Reset
           </button>
         </div>
         <div className="mt-4">
@@ -120,8 +137,8 @@ function Options() {
                                   tabIndex={index * 3 + 1}
                                   className="w-full bg-transparent border-none outline-none p-4 focus-within:bg-white"
                                   type="text"
-                                  defaultValue={suggestion.label}
-                                  onBlur={event => handleFieldChange("label", index, event.target.value)}
+                                  value={suggestion.label}
+                                  onChange={handleFieldChange("label", index)}
                                 />
                               </td>
                               <td className="p-0">
@@ -129,14 +146,14 @@ function Options() {
                                   tabIndex={index * 3 + 2}
                                   className="w-full bg-transparent border-none outline-none p-4 focus-within:bg-white"
                                   type="text"
-                                  defaultValue={suggestion.value}
-                                  onBlur={event => handleFieldChange("value", index, event.target.value)}
+                                  value={suggestion.value}
+                                  onChange={handleFieldChange("value", index)}
                                 />
                               </td>
                               <td className="flex justify-end">
                                 <button
                                   tabIndex={index * 3 + 3}
-                                  className="btn btn-xs btn-secondary w-28"
+                                  className="btn btn-xs btn-error w-28"
                                   onClick={() => removeSuggestion(index)}>
                                   Remove
                                 </button>
@@ -153,7 +170,7 @@ function Options() {
             </table>
           </DragDropContext>
           <div className="flex mt-8 gap-4 justify-end p-4">
-            <button tabIndex={99} className="btn btn-sm btn-primary w-28" onClick={addSuggestion}>
+            <button tabIndex={99} className="btn btn-sm btn-success w-28" onClick={addSuggestion}>
               Insert
             </button>
           </div>
