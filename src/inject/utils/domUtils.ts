@@ -3,7 +3,7 @@ export function replaceValue(value: string, inputElement: HTMLInputElement | HTM
   inputElement.focus()
 }
 
-export function removeRoot(rootContainer: HTMLElement, disconnectObserver: Function | null) {
+export function removeRoot(rootContainer: HTMLElement, activeElement: HTMLElement, disconnectObserver: Function | null) {
   if (rootContainer.parentElement) {
     document.body.removeChild(rootContainer)
   }
@@ -11,6 +11,8 @@ export function removeRoot(rootContainer: HTMLElement, disconnectObserver: Funct
   if (disconnectObserver) {
     disconnectObserver()
   }
+
+  activeElement.focus()
 }
 
 export function populateSuggestionList(
@@ -36,7 +38,7 @@ export function populateSuggestionList(
       const value = suggestionElement.getAttribute("data-value")
       if (value) {
         replaceValue(value, activeElement)
-        removeRoot(rootContainer, null)
+        removeRoot(rootContainer, activeElement, null)
       }
     })
     if (index === 0) {
@@ -56,7 +58,7 @@ export function isValidElement(element: HTMLInputElement | HTMLTextAreaElement):
 
 export function createObserver(
   activeElement: HTMLElement,
-  removeRoot: (rootContainer: HTMLElement, disconnectObserver: Function | null) => void,
+  removeRoot: (rootContainer: HTMLElement, activeElement: HTMLElement, disconnectObserver: Function | null) => void,
   rootContainer: HTMLElement
 ) {
   // Start observing after rootContainer is added to document.body
@@ -65,7 +67,7 @@ export function createObserver(
       if (mutation.type === "childList") {
         // check if activeElement still exists in document
         if (!document.contains(activeElement)) {
-          removeRoot(rootContainer, null)
+          removeRoot(rootContainer, activeElement, null)
           observer.disconnect() // Stop observing
           break
         }

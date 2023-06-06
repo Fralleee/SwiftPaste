@@ -3,7 +3,7 @@ import React from "react"
 const Sidebar = () => {
   return (
     <aside className="w-96 prose prose-p:text-sm flex flex-col gap-4 px-4 py-8">
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
         <img className="m-0" src="./images/128.png" width={48} height={48} />
         <h1 className="m-0">SwiftPaste</h1>
       </div>

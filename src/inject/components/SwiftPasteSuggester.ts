@@ -6,7 +6,7 @@ import Container from "./Container"
 import InputField from "./InputField"
 import SuggestionList from "./SuggestionList"
 
-export function SuggestionBox(suggestions: Suggestion[], activeElement: HTMLInputElement | HTMLTextAreaElement) {
+export function SwiftPasteSuggester(suggestions: Suggestion[], activeElement: HTMLInputElement | HTMLTextAreaElement) {
   const rootContainer = document.createElement("div")
   rootContainer.classList.add("SwiftPaste")
   const container = Container()
@@ -30,7 +30,7 @@ export function SuggestionBox(suggestions: Suggestion[], activeElement: HTMLInpu
   function handlePopupKeyDown(event: KeyboardEvent) {
     switch (event.code) {
       case "Escape":
-        removeRoot(rootContainer, disconnectObserver)
+        removeRoot(rootContainer, activeElement, disconnectObserver)
         event.preventDefault()
         break
       case "Enter":
@@ -50,7 +50,7 @@ export function SuggestionBox(suggestions: Suggestion[], activeElement: HTMLInpu
 
   function handleDocumentClickOutside(event: MouseEvent) {
     if (!rootContainer.contains(event.target as Node)) {
-      removeRoot(rootContainer, disconnectObserver)
+      removeRoot(rootContainer, activeElement, disconnectObserver)
     }
   }
 
@@ -60,7 +60,7 @@ export function SuggestionBox(suggestions: Suggestion[], activeElement: HTMLInpu
       const value = selectedSuggestion.getAttribute("data-value")
       if (value) {
         replaceValue(value, activeElement)
-        removeRoot(rootContainer, disconnectObserver)
+        removeRoot(rootContainer, activeElement, disconnectObserver)
       }
     }
   }

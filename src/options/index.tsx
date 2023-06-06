@@ -1,7 +1,8 @@
 import React from "react"
 import { createRoot } from "react-dom/client"
+import Options from "./components/Options"
+
 import "../styles/tailwind.css"
-import Options from "./Options"
 
 function init() {
   const appContainer = document.createElement("div")
@@ -14,8 +15,8 @@ function init() {
 
   const faviconLink = document.createElement("link")
   faviconLink.rel = "icon"
-  faviconLink.type = "image/png"
-  faviconLink.href = "images/favicon.png"
+  faviconLink.type = "image/svg"
+  faviconLink.href = "images/favicon.svg"
   document.head.appendChild(faviconLink)
 }
 

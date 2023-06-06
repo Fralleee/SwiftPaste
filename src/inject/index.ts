@@ -1,9 +1,9 @@
-import { SuggestionBox } from "./components/SuggestionBox"
+import { SwiftPasteSuggester } from "./components/SwiftPasteSuggester"
 import { isValidElement } from "./utils/domUtils"
 
-window.addEventListener("keydown", activateSuggestionBox)
+window.addEventListener("keydown", activateSwiftPasteSuggester)
 
-function activateSuggestionBox(event: KeyboardEvent) {
+function activateSwiftPasteSuggester(event: KeyboardEvent) {
   if (event.ctrlKey && event.code === "Space") {
     const activeElement = document.activeElement as HTMLInputElement | HTMLTextAreaElement
     if (!activeElement || activeElement === document.body || !isValidElement(activeElement)) {
@@ -16,7 +16,7 @@ function activateSuggestionBox(event: KeyboardEvent) {
         return
       }
       const suggestions: Suggestion[] = result.swiftPasteSuggestions || []
-      SuggestionBox(suggestions, activeElement)
+      SwiftPasteSuggester(suggestions, activeElement)
     })
   }
 }

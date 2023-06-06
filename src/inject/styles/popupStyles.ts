@@ -4,28 +4,16 @@ const cssStyles = `
   :host {
     --swiftPastePopup-background: #fff;
     --swiftPastePopup-border: #e2e8f0;
-    --swiftPastePopup-text: #0f172a;
-    --swiftPastePopupInactive-text: #0f172a;
+    --swiftPastePopup-text: #020406;
+    --swiftPastePopupInactive-text: #122436;
     --swiftPastePopup-input-border: #ccc;
     --swiftPastePopup-input-background: transparent;
     --swiftPastePopup-input-text: inherit;
-    --swiftPastePopup-suggestion-selected-background: #f1f5f9;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :host {
-      --swiftPastePopup-background: #030711;
-      --swiftPastePopup-border: #1d283a;
-      --swiftPastePopup-text: #f8fafc;
-      --swiftPastePopupInactive-text: #94b8a3;
-      --swiftPastePopup-input-border: #666;
-      --swiftPastePopup-input-background: #222;
-      --swiftPastePopup-input-text: inherit;
-      --swiftPastePopup-suggestion-selected-background: #1d283a;
-    }
+    --swiftPastePopup-suggestion-selected-background: #ffbbfd;
   }
 
   .swiftPastePopup__container {
+    animation: slide-in-left 0.25s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
     font-family: 'Inter', sans-serif;
     position: fixed;
     background-color: var(--swiftPastePopup-background);
@@ -38,19 +26,19 @@ const cssStyles = `
     -webkit-font-smoothing antialiased;
   }
 
-  .swiftPastePopup__input {
+  .swiftPastePopup__input {   
     border: none;
     outline: none;
     padding: 6px 8px;
     font-size: 14px;
-    max-width: 100%;
+    width: 150px;
     background-color: transparent;    
     color: var(--swiftPastePopup-input-text);
   }
 
   .swiftPastePopup__suggestions {
     max-height: 250px;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 
   .swiftPastePopup__suggestion {
@@ -65,6 +53,18 @@ const cssStyles = `
     background-color: var(--swiftPastePopup-suggestion-selected-background);
     color: var(--swiftPastePopup-text);
   }
+
+  @keyframes slide-in-left {
+    0% {
+      transform: translateX(-20px) scale(0.8);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0) scale(1);
+      opacity: 1;
+    }
+  }
+
 `
 
 export default cssStyles
