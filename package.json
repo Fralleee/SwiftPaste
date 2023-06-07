@@ -7,7 +7,8 @@
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0",
-    "theme-change": "^2.5.0"
+    "theme-change": "^2.5.0",
+    "webpack-dev-server": "^4.15.0"
   },
   "description": "SwiftPaste is a Chrome extension that enhances your copy-paste workflow. It allows quick access to categorized clipboard data based on context, making tasks like form filling, coding, and communication more efficient. Contributions are welcomed. See the contributing guide for more details.",
   "devDependencies": {
@@ -19,6 +20,7 @@
     "@typescript-eslint/eslint-plugin": "^5.59.8",
     "autoprefixer": "^10.4.13",
     "clean-webpack-plugin": "^4.0.0",
+    "concurrently": "^8.1.0",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.3",
     "daisyui": "^3.0.3",
@@ -29,7 +31,7 @@
     "eslint-plugin-promise": "^6.1.1",
     "file-loader": "^6.2.0",
     "fs": "^0.0.1-security",
-    "html-webpack-plugin": "^5.5.0",
+    "html-webpack-plugin": "^5.5.1",
     "postcss": "^8.4.24",
     "postcss-loader": "^7.0.2",
     "prettier": "^2.8.8",
@@ -51,7 +53,9 @@
   },
   "scripts": {
     "build": "webpack --progress --config webpack.prod.js",
-    "dev": "webpack --watch --progress --config webpack.dev.js"
+    "dev": "concurrently \"npm run dev:extension\" \"npm run dev:testingGrounds\"",
+    "dev:extension": "webpack --watch --progress --config webpack.dev.js",
+    "dev:testingGrounds": "webpack serve --config webpack.testing-grounds.js"
   },
   "version": "0.1.0"
 }

@@ -1,3 +1,5 @@
+import SwiftPasteSuggester from "../components/SwiftPasteSuggester"
+
 export function fuzzySearch(query: string, suggestions: Suggestion[]): Suggestion[] {
   const lowerQuery = query.toLowerCase()
   return suggestions.filter(suggestion => {
@@ -32,25 +34,20 @@ export function fuzzySearch(query: string, suggestions: Suggestion[]): Suggestio
   })
 }
 
-export function selectPreviousSuggestion(
-  suggestionList: HTMLDivElement,
-  selectedSuggestionIndex: number,
-  updateIndex: (index: number) => void
-) {
+export function selectPreviousSuggestion(swiftPasteSuggester: SwiftPasteSuggester) {
+  console.log(swiftPasteSuggester)
+  const { suggestionList, selectedSuggestionIndex, updateSelectedSuggestionIndex } = swiftPasteSuggester
   const suggestionItems = suggestionList.querySelectorAll<HTMLElement>(".swiftPastePopup__suggestion")
   const selectedIndex = Math.max(selectedSuggestionIndex - 1, 0)
-  updateIndex(selectedIndex)
+  updateSelectedSuggestionIndex(selectedIndex)
   selectSuggestion(suggestionItems, selectedIndex)
 }
 
-export function selectNextSuggestion(
-  suggestionList: HTMLDivElement,
-  selectedSuggestionIndex: number,
-  updateIndex: (index: number) => void
-) {
+export function selectNextSuggestion(swiftPasteSuggester: SwiftPasteSuggester) {
+  const { suggestionList, selectedSuggestionIndex, updateSelectedSuggestionIndex } = swiftPasteSuggester
   const suggestionItems = suggestionList.querySelectorAll<HTMLElement>(".swiftPastePopup__suggestion")
   const selectedIndex = Math.min(selectedSuggestionIndex + 1, suggestionItems.length - 1)
-  updateIndex(selectedIndex)
+  updateSelectedSuggestionIndex(selectedIndex)
   selectSuggestion(suggestionItems, selectedIndex)
 }
 

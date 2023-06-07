@@ -13,6 +13,7 @@ const cssStyles = `
   }
 
   .swiftPastePopup__container {
+    box-sizing: border-box;
     animation: slide-in-left 0.25s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
     font-family: 'Inter', sans-serif;
     position: fixed;
@@ -20,7 +21,7 @@ const cssStyles = `
     border: 1px solid var(--swiftPastePopup-border);
     border-radius: 6px;
     padding: 4px;
-    width: 200px;
+    width: 220px;
     color: var(--swiftPastePopup-text);
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
     -webkit-font-smoothing antialiased;

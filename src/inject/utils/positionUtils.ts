@@ -2,12 +2,12 @@ export function calculatePosition(
   activeElementPosition: DOMRect,
   popupElement: HTMLElement
 ): { offsetX: number; offsetY: number; expandsUpward: boolean } {
-  const margin = 4 // buffer space in pixels between active element and popup
+  const margin = 4
   const windowWidth = window.innerWidth
   const windowHeight = window.innerHeight
 
-  const popupWidth = popupElement.offsetWidth
-  const popupMaxHeight = 400
+  const popupWidth = 220
+  const popupMaxHeight = 300
 
   let expandsUpward = false
   let left = activeElementPosition.right + margin
@@ -16,7 +16,8 @@ export function calculatePosition(
 
   // Adjust position if popup will be off screen
   if (left + popupWidth > windowWidth) {
-    left = windowWidth - popupWidth - margin
+    // If popup does not fit to the right, place it to the left
+    left = activeElementPosition.left - margin - popupWidth
   }
 
   if (top + popupMaxHeight > windowHeight) {
