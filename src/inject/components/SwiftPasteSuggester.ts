@@ -31,10 +31,11 @@ export default class SwiftPasteSuggester {
     this.suggestionList = SuggestionList()
 
     this.inputField.addEventListener("input", this.handleInputChange.bind(this))
-    this.inputField.addEventListener("focusout", this.handleInputFocusOut.bind(this))
     this.container.addEventListener("keydown", this.handlePopupKeyDown.bind(this))
 
+    this.inputField.addEventListener("focusout", this.handleInputFocusOut.bind(this))
     document.addEventListener("click", this.handleDocumentClickOutside.bind(this), { once: true })
+
     this.updateSelectedSuggestionIndex = this.updateSelectedSuggestionIndex.bind(this)
 
     this.populateSuggestionList(this.suggestions)
@@ -67,8 +68,16 @@ export default class SwiftPasteSuggester {
   }
 
   handleInputFocusOut(event) {
-    if (!this.rootContainer.contains(event.target)) {
-      this.removeRoot()
+    this.handleFocusOut(event.target as Node)
+  }
+
+  handleDocumentClickOutside(event: MouseEvent) {
+    this.handleFocusOut(event.target as Node)
+  }
+
+  handleFocusOut(target: Node) {
+    if (!this.rootContainer.contains(target)) {
+      this.removeRoot(false)
     }
   }
 
@@ -96,12 +105,6 @@ export default class SwiftPasteSuggester {
         selectNextSuggestion(this)
         event.preventDefault()
         break
-    }
-  }
-
-  handleDocumentClickOutside(event: MouseEvent) {
-    if (!this.rootContainer.contains(event.target as Node)) {
-      this.removeRoot(false)
     }
   }
 
