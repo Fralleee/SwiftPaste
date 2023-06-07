@@ -35,7 +35,6 @@ export function fuzzySearch(query: string, suggestions: Suggestion[]): Suggestio
 }
 
 export function selectPreviousSuggestion(swiftPasteSuggester: SwiftPasteSuggester) {
-  console.log(swiftPasteSuggester)
   const { suggestionList, selectedSuggestionIndex, updateSelectedSuggestionIndex } = swiftPasteSuggester
   const suggestionItems = suggestionList.querySelectorAll<HTMLElement>(".swiftPastePopup__suggestion")
   const selectedIndex = Math.max(selectedSuggestionIndex - 1, 0)
