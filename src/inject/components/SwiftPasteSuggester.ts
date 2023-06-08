@@ -33,9 +33,6 @@ export default class SwiftPasteSuggester {
     this.inputField.addEventListener("input", this.handleInputChange.bind(this))
     this.container.addEventListener("keydown", this.handlePopupKeyDown.bind(this))
 
-    this.rootContainer.addEventListener("focusout", this.handleInputFocusOut.bind(this))
-    document.addEventListener("click", this.handleDocumentClickOutside.bind(this), { once: true })
-
     this.updateSelectedSuggestionIndex = this.updateSelectedSuggestionIndex.bind(this)
 
     this.populateSuggestionList(this.suggestions)
@@ -64,22 +61,12 @@ export default class SwiftPasteSuggester {
     document.body.appendChild(this.rootContainer)
     this.disconnectObserver = createObserver(this.activeElement, this.removeRoot)
 
+    this.rootContainer.addEventListener("focusout", this.handleInputFocusOut.bind(this))
     this.inputField.focus()
   }
 
-  handleInputFocusOut(event) {
-    this.handleFocusOut(event.target as Node)
-  }
-
-  handleDocumentClickOutside(event: MouseEvent) {
-    this.handleFocusOut(event.target as Node)
-  }
-
-  handleFocusOut(target: Node) {
-    console.log(target)
-    if (!this.rootContainer.contains(target)) {
-      this.removeRoot(false)
-    }
+  handleInputFocusOut() {
+    this.removeRoot(false)
   }
 
   handleInputChange(event) {
@@ -143,12 +130,13 @@ export default class SwiftPasteSuggester {
         }
         suggestionElement.classList.add("selected")
       })
-      suggestionElement.addEventListener("click", () => {
+      suggestionElement.addEventListener("mousedown", event => {
         const value = suggestionElement.getAttribute("data-value")
         if (value) {
           this.replaceValue(value)
           this.removeRoot()
         }
+        event.preventDefault()
       })
       if (index === 0) {
         suggestionElement.classList.add("selected")
