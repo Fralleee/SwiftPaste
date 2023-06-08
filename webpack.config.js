@@ -57,6 +57,10 @@ module.exports = {
         {
           from: path.resolve("src/static"),
           to: path.resolve("dist/plugin")
+        },
+        {
+          from: path.resolve("src/static"),
+          to: path.resolve("dist/testing-grounds")
         }
       ]
     }),

@@ -33,7 +33,7 @@ export default class SwiftPasteSuggester {
     this.inputField.addEventListener("input", this.handleInputChange.bind(this))
     this.container.addEventListener("keydown", this.handlePopupKeyDown.bind(this))
 
-    this.inputField.addEventListener("focusout", this.handleInputFocusOut.bind(this))
+    this.rootContainer.addEventListener("focusout", this.handleInputFocusOut.bind(this))
     document.addEventListener("click", this.handleDocumentClickOutside.bind(this), { once: true })
 
     this.updateSelectedSuggestionIndex = this.updateSelectedSuggestionIndex.bind(this)
@@ -76,6 +76,7 @@ export default class SwiftPasteSuggester {
   }
 
   handleFocusOut(target: Node) {
+    console.log(target)
     if (!this.rootContainer.contains(target)) {
       this.removeRoot(false)
     }
