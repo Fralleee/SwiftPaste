@@ -10,9 +10,22 @@
     "default_popup": "popup.html",
     "default_icon": {
       "16": "images/16.png",
+      "24": "images/24.png",
+      "32": "images/32.png",
       "48": "images/48.png",
-      "128": "images/128.png"
+      "64": "images/64.png",
+      "128": "images/128.png",
+      "256": "images/256.png"
     }
+  },
+  "icons": {
+    "16": "images/16.png",
+    "24": "images/24.png",
+    "32": "images/32.png",
+    "48": "images/48.png",
+    "64": "images/64.png",
+    "128": "images/128.png",
+    "256": "images/256.png"
   },
   "options_page": "options.html",
   "permissions": [
