@@ -56,11 +56,7 @@ module.exports = {
       patterns: [
         {
           from: path.resolve("src/static"),
-          to: path.resolve("dist/plugin")
-        },
-        {
-          from: path.resolve("src/static"),
-          to: path.resolve("dist/testing-grounds")
+          to: path.resolve("dist")
         }
       ]
     }),
@@ -71,7 +67,7 @@ module.exports = {
   },
   output: {
     filename: "[name].js",
-    path: path.join(__dirname, "dist/plugin")
+    path: path.join(__dirname, "dist")
   },
   optimization: {
     splitChunks: {

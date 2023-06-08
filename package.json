@@ -50,9 +50,9 @@
   },
   "scripts": {
     "build": "webpack --progress --config webpack.prod.js",
-    "dev": "concurrently \"npm run dev:extension\" \"npm run dev:testingGrounds\"",
-    "dev:extension": "webpack --watch --progress --config webpack.dev.js",
-    "dev:testingGrounds": "webpack serve --config webpack.testing-grounds.js"
+    "dev": "concurrently \"npm run dev:start\" \"npm run dev:watch\"",
+    "dev:start": "webpack serve --config webpack.devServer.js",
+    "dev:watch": "webpack --watch --config webpack.dev.js"
   },
   "version": "0.1.0"
 }
