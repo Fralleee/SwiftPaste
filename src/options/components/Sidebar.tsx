@@ -9,7 +9,7 @@ const Sidebar = () => {
       </div>
 
       <p className="mb-0">
-        Personal control center for customizing the suggestions provided by our extension. Here, you can effortlessly manage your
+        With just a few clicks, you'll be the master of your suggestion universe, effortlessly managing and shaping your very own
         suggestions list.
       </p>
 
@@ -22,7 +22,10 @@ const Sidebar = () => {
         <div tabIndex={0} className="collapse collapse-arrow ">
           <div className="collapse-title font-bold select-none">👍 Add a Suggestion</div>
           <div className="collapse-content">
-            <p className="p-0 m-0">To add a new suggestion, click the 'Add' button and fill in the details in the newly created row.</p>
+            <p className="p-0 m-0">
+              Simply hit that shiny 'Insert' button and watch the magic unfold! A brand new row will appear, eagerly waiting for you to fill
+              it with your ingenious suggestion.{" "}
+            </p>
           </div>
         </div>
 
@@ -30,8 +33,9 @@ const Sidebar = () => {
           <div className="collapse-title font-bold select-none">✏️ Edit a Suggestion</div>
           <div className="collapse-content">
             <p className="p-0 m-0">
-              If you wish to modify an existing suggestion, navigate to it in the list. You'll notice that every cell in the table is
-              editable, simply click on the cell you want to edit and start typing to update the content right there.
+              Navigate your way through the list and behold the wonders of our editable table. Each cell is your playground for
+              customization. Just click on the cell you desire, and like a wizard with a keyboard, start typing to update the content in
+              real-time. Prepare to witness the transformation as your suggestions come to life with every keystroke.
             </p>
           </div>
         </div>
@@ -40,8 +44,8 @@ const Sidebar = () => {
           <div className="collapse-title font-bold select-none">❌ Remove a Suggestion</div>
           <div className="collapse-content">
             <p className="p-0 m-0">
-              To delete a suggestion, select it and hit the 'Remove' button. The selected suggestion will be instantly removed from your
-              list.
+              With a decisive selection and a swift strike of the 'Remove' button, watch as the chosen suggestion vanishes into the digital
+              abyss, never to be seen again. Poof! In an instant, your list gets a little lighter, making space for fresh inspiration.
             </p>
           </div>
         </div>
@@ -50,8 +54,8 @@ const Sidebar = () => {
           <div className="collapse-title font-bold select-none">🔃 Order Suggestions</div>
           <div className="collapse-content">
             <p className="p-0 m-0">
-              We understand the importance of ordering your suggestions, so we have incorporated a sorting feature. Simply drag and drop the
-              table rows to arrange your suggestions in your preferred order.
+              Simply unleash your inner master of arrangement by dragging and dropping those table rows like a pro. Reorder and rearrange
+              your suggestions with the flick of a wrist, crafting the perfect sequence that suits your taste.
             </p>
           </div>
         </div>
