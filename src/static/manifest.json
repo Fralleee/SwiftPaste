@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "SwiftPaste",
   "version": "0.1",
-  "description": "SwiftPaste is a Chrome extension that enhances your copy-paste workflow. It allows quick access to categorized clipboard data based on context, making tasks like form filling, coding, and communication more efficient.",
+  "description": "SwiftPaste: A Chrome extension optimizing text inputs by providing quick access to a categorized text storage, based on context.",
   "background": {
     "service_worker": "serviceWorker.js"
   },
