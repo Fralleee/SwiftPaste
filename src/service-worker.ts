@@ -8,9 +8,9 @@ chrome.runtime.onInstalled.addListener(details => {
       const existingSuggestions = result.swiftPasteSuggestions || []
       if (existingSuggestions.length === 0) {
         const defaultSuggestions = [
-          { label: "Name", value: "John Doe" },
-          { label: "Email", value: "john_the_doe@gmail.com" },
-          { label: "Website URL", value: "https://www.fralle.net" }
+          { id: 1, label: "Name", value: "John Doe" },
+          { id: 2, label: "Email", value: "john_the_doe@gmail.com" },
+          { id: 3, label: "Website URL", value: "https://www.fralle.net" }
         ]
         chrome.storage.sync.set({ swiftPasteSuggestions: defaultSuggestions }, () => {
           if (chrome.runtime.lastError) {

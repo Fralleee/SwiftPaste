@@ -49,7 +49,7 @@ function Options() {
   }
 
   const addSuggestion = () => {
-    setSuggestions([...suggestions, { label: "", value: "" }])
+    setSuggestions([...suggestions, { id: suggestions.length + 1, label: "", value: "" }])
     setFormDirty(true)
   }
 

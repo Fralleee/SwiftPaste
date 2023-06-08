@@ -28,7 +28,7 @@ const SuggestionsTable: React.FC<SuggestionsTableProps> = ({ suggestions, onDrag
               ref={provider.innerRef}
               {...provider.droppableProps}>
               {suggestions?.map((suggestion, index) => (
-                <Draggable key={suggestion.label} draggableId={suggestion.label} index={index}>
+                <Draggable key={suggestion.id} draggableId={`suggestion::${suggestion.id}`} index={index}>
                   {(provider, snapshot) => {
                     return (
                       <tr
