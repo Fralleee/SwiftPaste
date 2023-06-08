@@ -6,7 +6,7 @@ import TopControls from "./TopControls"
 import { fetchSuggestions, saveSuggestions } from "../utils/suggestionsUtils"
 
 const themes = [
-  { label: "light", value: "pastel" },
+  { label: "light", value: "light" },
   { label: "dark", value: "night" }
 ]
 
@@ -81,8 +81,8 @@ function Options() {
       <main className="prose relative ml-12 w-full mt-8 px-4 flex-1 max-w-full">
         <input
           type="checkbox"
-          className="absolute top-2 right-2 toggle toggle-md"
-          data-toggle-theme="pastel,night"
+          className="absolute top-2 right-2 toggle toggle-md toggle-primary"
+          data-toggle-theme="light,night"
           data-act-class="ACTIVECLASS"
         />
         <TopControls isFormDirty={isFormDirty} onSave={handleSaveButtonClick} onReset={handleResetButtonClick} />

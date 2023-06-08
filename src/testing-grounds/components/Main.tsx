@@ -1,5 +1,6 @@
 import React from "react"
 import Input from "./Input"
+import Textarea from "./Textarea"
 
 function Main() {
   return (
@@ -10,18 +11,26 @@ function Main() {
 
       <div className="absolute top-4 left-4">
         <Input />
+        <div className="my-2" />
+        <Textarea />
       </div>
 
       <div className="absolute bottom-4 left-4">
         <Input />
+        <div className="my-2" />
+        <Textarea />
       </div>
 
       <div className="absolute top-4 right-4">
         <Input />
+        <div className="my-2" />
+        <Textarea />
       </div>
 
       <div className="absolute bottom-4 right-4">
         <Input />
+        <div className="my-2" />
+        <Textarea />
       </div>
     </main>
   )
