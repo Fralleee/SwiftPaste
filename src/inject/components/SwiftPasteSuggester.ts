@@ -13,6 +13,7 @@ export default class SwiftPasteSuggester {
   inputField: HTMLInputElement
   suggestionList: HTMLDivElement
   suggestions: Suggestion[]
+  isUnmounting: boolean
   disconnectObserver: Function | null = null
   selectedSuggestionIndex = 0
   filterText = ""
@@ -23,6 +24,7 @@ export default class SwiftPasteSuggester {
     this.selectedSuggestionIndex = 0
     this.filterText = ""
     this.suggestions = suggestions
+    this.isUnmounting = false
 
     this.rootContainer = document.createElement("div")
     this.rootContainer.classList.add("SwiftPaste")
@@ -32,6 +34,7 @@ export default class SwiftPasteSuggester {
 
     this.inputField.addEventListener("input", this.handleInputChange.bind(this))
     this.container.addEventListener("keydown", this.handlePopupKeyDown.bind(this))
+    this.rootContainer.addEventListener("focusout", this.handleRootContainerFocusOut.bind(this))
 
     this.updateSelectedSuggestionIndex = this.updateSelectedSuggestionIndex.bind(this)
 
@@ -61,11 +64,10 @@ export default class SwiftPasteSuggester {
     document.body.appendChild(this.rootContainer)
     this.disconnectObserver = createObserver(this.activeElement, this.removeRoot)
 
-    this.rootContainer.addEventListener("focusout", this.handleInputFocusOut.bind(this))
     this.inputField.focus()
   }
 
-  handleInputFocusOut() {
+  handleRootContainerFocusOut() {
     this.removeRoot(false)
   }
 
@@ -151,8 +153,11 @@ export default class SwiftPasteSuggester {
   }
 
   removeRoot(focusActiveElement: boolean = true) {
-    if (this.rootContainer.parentElement) {
-      document.body.removeChild(this.rootContainer)
+    if (this.isUnmounting) return
+
+    if (this.rootContainer && this.rootContainer.parentElement && this.rootContainer.parentElement.contains(this.rootContainer)) {
+      this.isUnmounting = true
+      this.rootContainer.parentElement.removeChild(this.rootContainer)
     }
 
     if (this.disconnectObserver) {
