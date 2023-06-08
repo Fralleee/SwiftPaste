@@ -17,10 +17,15 @@
   "options_page": "options.html",
   "permissions": [
     "storage",
-    "scripting"
+    "scripting",
+    "activeTab"
   ],
-  "host_permissions": [
-    "*://*/*",
-    "<all_urls>"
-  ]
+  "commands": {
+    "openSwiftPaste": {
+      "suggested_key": {
+        "default": "Ctrl+Space"
+      },
+      "description": "Run \"SwiftPaste\" on the current tab."
+    }
+  }
 }

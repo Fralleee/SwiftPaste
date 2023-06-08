@@ -148,8 +148,36 @@ export default class SwiftPasteSuggester {
   }
 
   replaceValue(value: string) {
-    this.activeElement.value = value
-    this.activeElement.focus()
+    const element = this.activeElement
+    element.focus()
+
+    for (let i = 0; i < value.length; i++) {
+      const char = value.charAt(i)
+      const eventOptions = {
+        key: char,
+        keyCode: char.charCodeAt(0),
+        which: char.charCodeAt(0),
+        bubbles: true,
+        cancelable: true
+      }
+
+      const keydownEvent = new KeyboardEvent("keydown", eventOptions)
+      element.dispatchEvent(keydownEvent)
+
+      const keypressEvent = new KeyboardEvent("keypress", eventOptions)
+      element.dispatchEvent(keypressEvent)
+
+      element.value += char
+
+      const inputEvent = new InputEvent("input", eventOptions)
+      element.dispatchEvent(inputEvent)
+
+      const keyupEvent = new KeyboardEvent("keyup", eventOptions)
+      element.dispatchEvent(keyupEvent)
+    }
+
+    const changeEvent = new Event("change", { bubbles: true, cancelable: true })
+    element.dispatchEvent(changeEvent)
   }
 
   removeRoot(focusActiveElement: boolean = true) {
