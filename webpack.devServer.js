@@ -1,17 +1,15 @@
 const { merge } = require("webpack-merge")
-const HtmlWebpackPlugin = require("html-webpack-plugin")
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
-const common = require("./webpack.config.js")
+const HtmlPlugin = require("html-webpack-plugin")
+const config = require("./webpack.config.js") // Update the import statement
 const path = require("path")
 
-module.exports = merge(common, {
+module.exports = merge(config, {
   mode: "development",
   devtool: "cheap-module-source-map",
   entry: path.resolve(__dirname, "src/sandbox/index.tsx"),
   devServer: {
-    static: {
-      directory: path.join(__dirname, "src/static")
-    },
+    static: path.join(__dirname, "src/static"),
     compress: true,
     port: 3000,
     hot: true
@@ -24,8 +22,8 @@ module.exports = merge(common, {
     new CleanWebpackPlugin({
       cleanStaleWebpackAssets: false
     }),
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, "src/sandbox/index.html"),
+    new HtmlPlugin({
+      template: path.resolve(__dirname, "src/template.html"),
       filename: "index.html",
       inject: "body"
     })

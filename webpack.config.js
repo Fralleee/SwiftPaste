@@ -82,7 +82,7 @@ function getHtmlPlugins(chunks) {
   return chunks.map(
     chunk =>
       new HtmlPlugin({
-        title: "SwiftPaste",
+        template: path.resolve(__dirname, "src/template.html"),
         filename: `${chunk}.html`,
         chunks: [chunk]
       })

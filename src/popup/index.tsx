@@ -5,11 +5,7 @@ import Popup from "./components/Popup"
 import "../styles/tailwind.css"
 
 function init() {
-  const appContainer = document.createElement("div")
-  appContainer.id = "root"
-
-  document.body.appendChild(appContainer)
-
+  const appContainer = document.querySelector("#root")
   const root = createRoot(appContainer)
   root.render(<Popup />)
 }
