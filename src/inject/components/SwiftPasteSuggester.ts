@@ -177,13 +177,26 @@ export default class SwiftPasteSuggester {
       const keypressEvent = new KeyboardEvent("keypress", eventOptions)
       element.dispatchEvent(keypressEvent)
 
-      element.value += char
+      if (element.isContentEditable) {
+        element.innerHTML += char
+      } else {
+        element.value += char
+      }
 
       const inputEvent = new InputEvent("input", eventOptions)
       element.dispatchEvent(inputEvent)
 
       const keyupEvent = new KeyboardEvent("keyup", eventOptions)
       element.dispatchEvent(keyupEvent)
+    }
+
+    if (element.isContentEditable) {
+      const range = document.createRange()
+      const sel = window.getSelection()
+      range.selectNodeContents(element)
+      range.collapse(false) // false means to the end of the range
+      sel.removeAllRanges()
+      sel.addRange(range)
     }
 
     const changeEvent = new Event("change", { bubbles: true, cancelable: true })
