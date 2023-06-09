@@ -1,5 +1,5 @@
 import cssStyles from "../styles/popupStyles"
-import { createObserver } from "../utils/domUtils"
+import { createObserver, getAdjacentFocusableElement } from "../utils/domUtils"
 import { calculatePosition } from "../utils/positionUtils"
 import { selectPreviousSuggestion, selectNextSuggestion, fuzzySearch } from "../utils/suggestionUtils"
 import Container from "./Container"
@@ -85,6 +85,16 @@ export default class SwiftPasteSuggester {
         break
       case "Enter":
         this.handleSuggestionSelection()
+        event.preventDefault()
+        break
+      case "Tab":
+        const direction = event.shiftKey ? "previous" : "next"
+        var adjacentFocusableElement = getAdjacentFocusableElement(this.activeElement, direction)
+        if (adjacentFocusableElement) {
+          adjacentFocusableElement.focus()
+        } else {
+          this.rootContainer.blur()
+        }
         event.preventDefault()
         break
       case "ArrowUp":

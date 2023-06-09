@@ -9,7 +9,7 @@ const cssStyles = `
     --swiftPastePopup-input-border: #ccc;
     --swiftPastePopup-input-background: transparent;
     --swiftPastePopup-input-text: inherit;
-    --swiftPastePopup-suggestion-selected-background: #ffbbfd;
+    --swiftPastePopup-suggestion-selected-background: #ACCEF7;
   }
 
   .swiftPastePopup__container {
