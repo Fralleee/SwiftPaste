@@ -5,11 +5,6 @@ import SuggestionsTable from "./SuggestionsTable"
 import TopControls from "./TopControls"
 import { fetchSuggestions, saveSuggestions } from "../utils/suggestionsUtils"
 
-const themes = [
-  { label: "light", value: "light" },
-  { label: "dark", value: "night" }
-]
-
 function Options() {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([])
   const [lastAddedIndex, setLastAddedIndex] = useState(null)

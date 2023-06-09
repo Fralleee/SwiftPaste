@@ -1,6 +1,9 @@
 import React from "react"
+import { useCommandShortcut } from "../../shared/useCommandShortcut"
 
 const Sidebar = () => {
+  const shortcut = useCommandShortcut("openSwiftPaste")
+
   return (
     <aside className="w-96 prose prose-p:text-sm flex flex-col gap-4 px-4 py-8">
       <div className="flex items-center gap-3">
@@ -15,7 +18,7 @@ const Sidebar = () => {
 
       <div className="flex gap-2">
         <p className="m-0 font-bold">Toggle extension with</p>
-        <kbd className="kbd kbd-sm">Ctrl+Space</kbd>
+        <kbd className="kbd kbd-sm">{shortcut}</kbd>
       </div>
 
       <div>

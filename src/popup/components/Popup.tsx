@@ -1,4 +1,5 @@
 import React from "react"
+import { useCommandShortcut } from "../../shared/useCommandShortcut"
 
 const openOptionsPage = () => {
   if (chrome.runtime.openOptionsPage) {
@@ -9,6 +10,8 @@ const openOptionsPage = () => {
 }
 
 function Popup() {
+  const shortcut = useCommandShortcut("openSwiftPaste")
+
   return (
     <div className="w-64">
       <div className="border-brand border-2 rounded m-1 p-2">
@@ -18,7 +21,7 @@ function Popup() {
         </div>
         <div className="flex flex-col gap-1 items-center justify-center my-2 mb-4">
           <p className="m-0 font-bold text-sm">Toggle extension with</p>
-          <kbd className="kbd kbd-sm">Ctrl+Space</kbd>
+          <kbd className="kbd kbd-sm">{shortcut}</kbd>
         </div>
         <div className="flex flex-col items-center justify-center">
           <button className="btn btn-outline btn-info btn-sm my-3" onClick={openOptionsPage}>
