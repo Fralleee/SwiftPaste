@@ -27,11 +27,11 @@ jobs:
       - name: Build extension
         run: npm run build
 
-      - name: Archive chrome-extension artifact
+      - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: chrome-extension-${{ github.sha }}
-          path: chrome-extension-${{ github.event.pull_request.head.sha }}.zip
+          name: SwiftPaste
+          path: build/SwiftPaste
 
   upload-extension:
     name: Upload extension
@@ -46,10 +46,11 @@ jobs:
         with:
           node-version: 18
 
-      - name: Download bundle artifact
-        uses: actions/download-artifact@v3
+      - name: Download artifact
+      - uses: actions/download-artifact@v3
         with:
-          name: chrome-extension-${{ github.sha }}
+          name: SwiftPaste
+          path: build/SwiftPaste
 
       - name: Install webstore cli
         run: |-
