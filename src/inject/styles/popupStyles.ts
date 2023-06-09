@@ -41,6 +41,7 @@ const cssStyles = `
     max-height: 250px;
     overflow-y: auto;
     padding: 0;
+    margin: 0;
     list-style: none;
   }
 
