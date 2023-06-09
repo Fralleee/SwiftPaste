@@ -11,7 +11,7 @@ export default class SwiftPasteSuggester {
   rootContainer: HTMLElement
   container: HTMLElement
   inputField: HTMLInputElement
-  suggestionList: HTMLDivElement
+  suggestionList: HTMLUListElement
   suggestions: Suggestion[]
   isUnmounting: boolean
   disconnectObserver: Function | null = null
@@ -131,9 +131,20 @@ export default class SwiftPasteSuggester {
   populateSuggestionList(suggestions: Suggestion[]) {
     this.suggestionList.innerHTML = ""
     suggestions.forEach((suggestion, index) => {
-      const suggestionElement = document.createElement("div")
+      const suggestionElement = document.createElement("li")
       suggestionElement.classList.add("swiftPastePopup__suggestion")
-      suggestionElement.textContent = suggestion.label
+      // suggestionElement.textContent = suggestion.label
+
+      const labelDiv = document.createElement("div")
+      labelDiv.classList.add("label")
+      labelDiv.textContent = suggestion.label
+      suggestionElement.appendChild(labelDiv)
+
+      const valueDiv = document.createElement("div")
+      valueDiv.classList.add("value")
+      valueDiv.textContent = suggestion.value
+      suggestionElement.appendChild(valueDiv)
+
       suggestionElement.setAttribute("data-value", suggestion.value)
       suggestionElement.addEventListener("mouseenter", () => {
         const selectedSuggestion = this.suggestionList.querySelector(".swiftPastePopup__suggestion.selected")

@@ -40,14 +40,26 @@ const cssStyles = `
   .swiftPastePopup__suggestions {
     max-height: 250px;
     overflow-y: auto;
+    padding: 0;
+    list-style: none;
   }
 
   .swiftPastePopup__suggestion {
+    display: flex;
+    gap: 1em;
     cursor: pointer;
-    font-size: 14px;
     padding: 6px 8px;
     border-radius: 4px;
+    font-size: 14px;
     color: var(--swiftPastePopupInactive-text);
+  }
+  
+  .swiftPastePopup__suggestion > div.value {
+    flex: 1;
+    color: rgba(0,0,0,.25);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .swiftPastePopup__suggestion.selected {
