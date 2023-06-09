@@ -34,7 +34,7 @@ export default class SwiftPasteSuggester {
 
     this.inputField.addEventListener("input", this.handleInputChange.bind(this))
     this.container.addEventListener("keydown", this.handlePopupKeyDown.bind(this))
-    // this.rootContainer.addEventListener("focusout", this.handleRootContainerFocusOut.bind(this))
+    this.rootContainer.addEventListener("focusout", this.handleRootContainerFocusOut.bind(this))
 
     this.updateSelectedSuggestionIndex = this.updateSelectedSuggestionIndex.bind(this)
 
