@@ -6,17 +6,17 @@ on:
       - main
 
 jobs:
-  build:
+  build-chrome-extension:
+    name: Build Chrome extension artifact
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v2
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 14
+          node-version: 16.10
 
       - name: Install dependencies
         run: npm install
@@ -27,11 +27,39 @@ jobs:
       - name: Build extension
         run: npm run build
 
-      - name: Upload to Chrome Web Store
-        uses: jasonfharris/chrome-webstore-upload-action@v1
+      - name: Archive chrome-extension artifact
+        uses: actions/upload-artifact@v2
         with:
-          extension-id: ${{ secrets.CHROME_EXTENSION_ID }}
-          client-id: ${{ secrets.CHROME_CLIENT_ID }}
-          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
-          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
-          zip-path: dist/extension.zip
+          name: chrome-extension-${{ github.sha }}
+          path: chrome-extension-${{ github.event.pull_request.head.sha }}.zip
+
+  upload-extension:
+    name: Upload extension
+    runs-on: ubuntu-latest
+    needs: build-chrome-extension
+    env:
+      EXTENSION_ID: ocamjpjndljkgcoeadplclcoiepjicgj
+
+    steps:
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.10
+
+      - name: Download bundle artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: chrome-extension-${{ github.sha }}
+
+      - name: Install webstore cli
+        run: |-
+          npm install -g chrome-webstore-upload-cli
+
+      - name: Upload step
+        run: |-
+          chrome-webstore-upload upload \\
+            --source chrome-extension-${{ github.event.pull_request.head.sha }}.zip \\
+            --extension-id ${{ env.EXTENSION_ID }} \\
+            --client-id ${{ secrets.CHROME_CLIENT_ID }} \\
+            --client-secret ${{ secrets.CHROME_CLIENT_SECRET }} \\
+            --refresh-token ${{ secrets.CHROME_REFRESH_TOKEN }}
