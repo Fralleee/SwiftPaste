@@ -1,10 +1,8 @@
-import SwiftPasteSuggester from "../components/SwiftPasteSuggester"
-
-export function isValidElement(element: HTMLInputElement | HTMLTextAreaElement): boolean {
+export function isValidElement(element: HTMLElement): boolean {
   const elementTagName = element.tagName
   const isInputElement = elementTagName === "INPUT"
   const isTextAreaElement = elementTagName === "TEXTAREA"
-  const isContentEditable = element.isContentEditable
+  const isContentEditable = element.isContentEditable || element.contentEditable === "true"
   return isInputElement || isTextAreaElement || isContentEditable
 }
 
