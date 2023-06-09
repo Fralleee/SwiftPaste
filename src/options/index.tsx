@@ -2,7 +2,7 @@ import React from "react"
 import { createRoot } from "react-dom/client"
 import Options from "./components/Options"
 
-import "../styles/tailwind.css"
+import "../styles/default.css"
 
 function init() {
   const appContainer = document.querySelector("#root")

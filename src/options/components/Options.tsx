@@ -12,6 +12,7 @@ const themes = [
 
 function Options() {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([])
+  const [lastAddedIndex, setLastAddedIndex] = useState(null)
   const [isFormDirty, setFormDirty] = useState(false)
 
   useEffect(() => {
@@ -50,6 +51,7 @@ function Options() {
 
   const addSuggestion = () => {
     setSuggestions([...suggestions, { id: suggestions.length + 1, label: "", value: "" }])
+    setLastAddedIndex(suggestions.length)
     setFormDirty(true)
   }
 
@@ -88,6 +90,7 @@ function Options() {
         <TopControls isFormDirty={isFormDirty} onSave={handleSaveButtonClick} onReset={handleResetButtonClick} />
         <SuggestionsTable
           suggestions={suggestions}
+          lastAddedIndex={lastAddedIndex}
           onDragEnd={handleDragEnd}
           onFieldChange={handleFieldChange}
           onRemove={removeSuggestion}
