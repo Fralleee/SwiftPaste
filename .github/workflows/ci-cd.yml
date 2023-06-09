@@ -31,7 +31,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: SwiftPaste
-          path: build/SwiftPaste
+          path: SwiftPaste.zip
 
   upload-extension:
     name: Upload extension
@@ -50,7 +50,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: SwiftPaste
-          path: build/SwiftPaste
+          path: SwiftPaste.zip
 
       - name: Install webstore cli
         run: |-
@@ -59,7 +59,7 @@ jobs:
       - name: Upload step
         run: |-
           chrome-webstore-upload upload \\
-            --source chrome-extension-${{ github.event.pull_request.head.sha }}.zip \\
+            --source SwiftPaste.zip \\
             --extension-id ${{ env.EXTENSION_ID }} \\
             --client-id ${{ secrets.CHROME_CLIENT_ID }} \\
             --client-secret ${{ secrets.CHROME_CLIENT_SECRET }} \\
