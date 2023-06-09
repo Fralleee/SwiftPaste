@@ -6,7 +6,7 @@ import ContentEditable from "./ContentEditable"
 function Main() {
   return (
     <main className="relative h-screen grid place-items-center">
-      <div className="w-96 h-96 bg-brand p-4 rounded-xl">
+      <div className="w-96 h-96 bg-brand p-4 rounded-xl opacity-10">
         <img className="m-0 filter brightness-0 invert" src="../images/logo.svg" width={512} height={512} />
       </div>
 
