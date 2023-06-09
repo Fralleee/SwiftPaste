@@ -37,7 +37,7 @@ jobs:
           path: chrome-extension-${{ github.event.pull_request.head.sha }}.zip
 
   upload-extension:
-    name: Upload 🚀
+    name: Upload 💦
     runs-on: ubuntu-latest
     needs: build-chrome-extension
     env:
