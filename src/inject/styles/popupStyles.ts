@@ -14,7 +14,7 @@ const cssStyles = `
 
   .swiftPastePopup__container {
     box-sizing: border-box;
-    animation: slide-in-left 0.25s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    animation: scale-in 160ms cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
     font-family: 'Inter', sans-serif;
     position: fixed;
     background-color: var(--swiftPastePopup-background);
@@ -68,13 +68,13 @@ const cssStyles = `
     color: var(--swiftPastePopup-text);
   }
 
-  @keyframes slide-in-left {
+  @keyframes scale-in {
     0% {
-      transform: translateX(-20px) scale(0.8);
+      transform: scale(0.8);
       opacity: 0;
     }
     100% {
-      transform: translateX(0) scale(1);
+      transform: scale(1);
       opacity: 1;
     }
   }
