@@ -24,10 +24,11 @@ jobs:
   build-and-test:
     needs: prepare-next-release
     runs-on: ubuntu-latest
+    env:
+      NEXT_VERSION: ${{ needs.prepare-next-release.outputs.next_version }}
     steps:
-
       - name: Output Next Version
-        run: echo "Next Version: ${{ needs.prepare-next-release.outputs.next_version }}"
+        run: echo "Next Version $GITHUB_CONTEXT"
 
       - name: Checkout
         uses: actions/checkout@v3
@@ -47,7 +48,7 @@ jobs:
         run: npm run build
 
       - name: Bump version
-        run: node scripts/updateManifestVersion.js ${{ needs.prepare-next-release.outputs.next_version }}
+        run: node scripts/updateManifestVersion.js $NEXT_VERSION
 
       # - name: Zip the extension
       #   run: zip -r chrome-extension.zip dist
