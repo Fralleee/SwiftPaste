@@ -1,0 +1,88 @@
+name: Release Pipeline
+
+on:
+  push:
+    tags:
+      - publish/*
+
+jobs:
+  prepare-next-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get next release version
+        id: semantic
+        uses: cycjimmy/semantic-release-action@v3
+        with:
+          dry_run: true
+          semantic_version: 19.0.5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-and-test:
+    needs: prepare-next-release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Bump version
+        run: node scripts/updateManifestVersion.js ${{ needs.prepare-next-release.outputs.new_release_version }}
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build extension
+        run: npm run build
+
+      - name: Zip the extension
+        run: zip -r chrome-extension.zip dist
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: chrome-extension
+          path: chrome-extension.zip
+
+  publish:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    env:
+      EXTENSION_ID: ocamjpjndljkgcoeadplclcoiepjicgj
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: chrome-extension
+
+      - name: Install webstore cli
+        run: npm install -g chrome-webstore-upload-cli
+
+      - name: Upload to web store
+        run: chrome-webstore-upload upload --source chrome-extension.zip --extension-id ${{ env.EXTENSION_ID }} --client-id ${{ secrets.CHROME_CLIENT_ID }} --client-secret ${{ secrets.CHROME_CLIENT_SECRET }} --refresh-token ${{ secrets.CHROME_REFRESH_TOKEN }}
+
+  release:
+    needs: publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v3
+        with:
+          semantic_version: 18
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
