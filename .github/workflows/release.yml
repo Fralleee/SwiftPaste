@@ -20,6 +20,8 @@ jobs:
         uses: cycjimmy/semantic-release-action@v3
         with:
           dry_run: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build-and-test:
     needs: prepare-next-release
