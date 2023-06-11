@@ -13,18 +13,14 @@ export default class SwiftPasteSuggester {
   inputField: HTMLInputElement
   suggestionList: HTMLUListElement
   suggestions: Suggestion[]
-  isUnmounting: boolean
+  isUnmounting: boolean = false
   disconnectObserver: Function | null = null
   selectedSuggestionIndex = 0
   filterText = ""
 
   constructor(suggestions: Suggestion[], activeElement: HTMLInputElement | HTMLTextAreaElement) {
     this.activeElement = activeElement
-    this.disconnectObserver
-    this.selectedSuggestionIndex = 0
-    this.filterText = ""
     this.suggestions = suggestions
-    this.isUnmounting = false
 
     this.rootContainer = document.createElement("div")
     this.rootContainer.classList.add("SwiftPaste")
@@ -134,7 +130,6 @@ export default class SwiftPasteSuggester {
     suggestions.forEach((suggestion, index) => {
       const suggestionElement = document.createElement("li")
       suggestionElement.classList.add("swiftPastePopup__suggestion")
-      // suggestionElement.textContent = suggestion.label
 
       const labelDiv = document.createElement("div")
       labelDiv.classList.add("label")
@@ -216,7 +211,9 @@ export default class SwiftPasteSuggester {
   }
 
   removeRoot(focusActiveElement: boolean = true) {
-    if (this.isUnmounting) return
+    if (this.isUnmounting) {
+      return
+    }
 
     if (this.rootContainer && this.rootContainer.parentElement && this.rootContainer.parentElement.contains(this.rootContainer)) {
       this.isUnmounting = true

@@ -36,9 +36,9 @@
   "commands": {
     "openSwiftPaste": {
       "suggested_key": {
-        "default": "Ctrl+Space"
+        "default": "Ctrl+Shift+Space"
       },
-      "description": "Run \"SwiftPaste\" on the current tab."
+      "description": "Open \"SwiftPaste\" popup."
     }
   }
 }
