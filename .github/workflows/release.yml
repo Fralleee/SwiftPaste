@@ -28,7 +28,7 @@ jobs:
       NEXT_VERSION: ${{ needs.prepare-next-release.outputs.next_version }}
     steps:
       - name: Output Next Version
-        run: echo "Next Version $GITHUB_CONTEXT"
+        run: echo "Next Version $NEXT_VERSION"
 
       - name: Checkout
         uses: actions/checkout@v3

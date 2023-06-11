@@ -1,6 +1,10 @@
 const fs = require("fs")
 const path = require("path")
 
+console.log("-- Log Args --")
+console.log(process.argv)
+console.log("-- /Log Args --")
+
 const [version] = process.argv.slice(2)
 const manifestPath = path.join(__dirname, "dist", "manifest.json")
 
