@@ -1,4 +1,4 @@
 module.exports = {
-  branches: ["refs/tags/publish/2023-06-11.17", "refs/tags/publish/2023-06-11.18"],
+  branches: ["publish/.*", "^refs/tags/publish/.*", "main"],
   plugins: ["@semantic-release/commit-analyzer", "@semantic-release/release-notes-generator", "@semantic-release/github"]
 }
