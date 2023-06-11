@@ -1,4 +1,4 @@
 module.exports = {
-  branches: ["publish/[0-9]{4}-[0-9]{2}-[0-9]{2}\\.[0-9]+$"],
+  branches: ["publish/.*$"],
   plugins: ["@semantic-release/commit-analyzer", "@semantic-release/release-notes-generator", "@semantic-release/github"]
 }
