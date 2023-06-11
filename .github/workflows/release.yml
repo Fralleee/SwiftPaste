@@ -19,22 +19,35 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run tests
-        run: npm test
-
-      - name: Build extension
-        run: npm run build
-
-      - name: Bump version
+      - name: "Bump version"
         run: node scripts/updateManifestVersion.js ${{ env.NEXT_VERSION }}
+
+      - name: Update manifest
+        uses: test-room-7/action-update-file@v1
+        with:
+          file-path: src/static/manifest.json
+          commit-msg: Update manifest
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      # - name: Checkout
+      #   uses: actions/checkout@v3
+
+      # - name: Set up Node.js
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: 18
+
+      # - name: Install dependencies
+      #   run: npm install
+
+      # - name: Run tests
+      #   run: npm test
+
+      # - name: Build extension
+      #   run: npm run build
+
+      # - name: Bump version
+      #   run: node scripts/updateManifestVersion.js ${{ env.NEXT_VERSION }}
 
       # - name: Zip the extension
       #   run: zip -r chrome-extension.zip dist

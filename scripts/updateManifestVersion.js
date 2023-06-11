@@ -6,7 +6,7 @@ console.log(process.argv)
 console.log("-- /Log Args --")
 
 const [version] = process.argv.slice(2)
-const manifestPath = path.join(__dirname, "dist", "manifest.json")
+const manifestPath = path.join(__dirname, "../", "dist", "manifest.json")
 
 if (!version) {
   console.error("Version number is required")
