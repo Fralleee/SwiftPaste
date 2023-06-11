@@ -7,21 +7,19 @@ on:
 
 jobs:
   prepare-next-release:
+    name: Prepare Next Release
     runs-on: ubuntu-latest
+    outputs:
+      next_version: ${{ steps.semantic.outputs.new_release_version }}
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
 
-      - name: Get next release version
+      - name: Semantic Release
         id: semantic
         uses: cycjimmy/semantic-release-action@v3
         with:
           dry_run: true
-          semantic_version: 19.0.5
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build-and-test:
     needs: prepare-next-release
@@ -39,7 +37,7 @@ jobs:
         run: npm install
 
       - name: Bump version
-        run: node scripts/updateManifestVersion.js ${{ needs.prepare-next-release.outputs.new_release_version }}
+        run: node scripts/updateManifestVersion.js ${{ needs.prepare-next-release.outputs.next_version }}
 
       - name: Run tests
         run: npm test
@@ -87,7 +85,5 @@ jobs:
 
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v3
-        with:
-          semantic_version: 18
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
