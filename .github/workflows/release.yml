@@ -9,7 +9,6 @@ on:
 
 jobs:
   build-and-test:
-    needs: prepare-next-release
     runs-on: ubuntu-latest
     env:
       NEXT_VERSION: ${{ github.event.inputs.version }}
