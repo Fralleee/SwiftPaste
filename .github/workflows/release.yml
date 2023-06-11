@@ -2,8 +2,8 @@ name: Release Pipeline
 
 on:
   push:
-    tags:
-      - publish/*
+    branches:
+      - release
 
 jobs:
   prepare-next-release:
