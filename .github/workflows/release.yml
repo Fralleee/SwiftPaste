@@ -30,6 +30,9 @@ jobs:
       - name: Output Next Version
         run: echo "Next Version ${{ env.NEXT_VERSION }}"
 
+      - name: Output Next Version
+        run: echo "Next Version ${{ needs.prepare-next-release.outputs.next_version }}"
+
       - name: Checkout
         uses: actions/checkout@v3
 
