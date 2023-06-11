@@ -25,6 +25,10 @@ jobs:
     needs: prepare-next-release
     runs-on: ubuntu-latest
     steps:
+
+      - name: Output Next Version
+        run: echo "Next Version: ${{ needs.prepare-next-release.outputs.next_version }}"
+
       - name: Checkout
         uses: actions/checkout@v3
 
@@ -36,54 +40,54 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Bump version
-        run: node scripts/updateManifestVersion.js ${{ needs.prepare-next-release.outputs.next_version }}
-
       - name: Run tests
         run: npm test
 
       - name: Build extension
         run: npm run build
 
-      - name: Zip the extension
-        run: zip -r chrome-extension.zip dist
+      - name: Bump version
+        run: node scripts/updateManifestVersion.js ${{ needs.prepare-next-release.outputs.next_version }}
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: chrome-extension
-          path: chrome-extension.zip
+      # - name: Zip the extension
+      #   run: zip -r chrome-extension.zip dist
 
-  publish:
-    needs: build-and-test
-    runs-on: ubuntu-latest
-    env:
-      EXTENSION_ID: ocamjpjndljkgcoeadplclcoiepjicgj
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: chrome-extension
+      # - name: Upload artifact
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: chrome-extension
+      #     path: chrome-extension.zip
 
-      - name: Install webstore cli
-        run: npm install -g chrome-webstore-upload-cli
+  # publish:
+  #   needs: build-and-test
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     EXTENSION_ID: ocamjpjndljkgcoeadplclcoiepjicgj
+  #   steps:
+  #     - name: Download artifact
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: chrome-extension
 
-      - name: Upload to web store
-        run: chrome-webstore-upload upload --source chrome-extension.zip --extension-id ${{ env.EXTENSION_ID }} --client-id ${{ secrets.CHROME_CLIENT_ID }} --client-secret ${{ secrets.CHROME_CLIENT_SECRET }} --refresh-token ${{ secrets.CHROME_REFRESH_TOKEN }}
+  #     - name: Install webstore cli
+  #       run: npm install -g chrome-webstore-upload-cli
 
-  release:
-    needs: publish
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+  #     - name: Upload to web store
+  #       run: chrome-webstore-upload upload --source chrome-extension.zip --extension-id ${{ env.EXTENSION_ID }} --client-id ${{ secrets.CHROME_CLIENT_ID }} --client-secret ${{ secrets.CHROME_CLIENT_SECRET }} --refresh-token ${{ secrets.CHROME_REFRESH_TOKEN }}
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
+  # release:
+  #   needs: publish
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
 
-      - name: Semantic Release
-        uses: cycjimmy/semantic-release-action@v3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #     - name: Setup Node.js
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 18
+
+  #     - name: Semantic Release
+  #       uses: cycjimmy/semantic-release-action@v3
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
