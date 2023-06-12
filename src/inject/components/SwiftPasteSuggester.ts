@@ -60,8 +60,6 @@ export default class SwiftPasteSuggester {
     }
 
     document.body.appendChild(this.rootContainer)
-    this.disconnectObserver = createObserver(this.activeElement, this.removeRoot)
-
     this.inputField.focus()
   }
 

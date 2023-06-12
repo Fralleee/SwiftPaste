@@ -1,6 +1,7 @@
 import SwiftPasteSuggester from "./components/SwiftPasteSuggester"
 import { isValidElement } from "./utils/domUtils"
 
+removePreviousSwiftPasteInstances()
 activateSwiftPasteSuggester()
 
 function activateSwiftPasteSuggester() {
@@ -16,5 +17,12 @@ function activateSwiftPasteSuggester() {
     }
     const suggestions: Suggestion[] = result.swiftPasteSuggestions || []
     new SwiftPasteSuggester(suggestions, activeElement)
+  })
+}
+
+function removePreviousSwiftPasteInstances() {
+  let elements = Array.from(document.querySelectorAll(".SwiftPaste"))
+  elements.forEach(element => {
+    element.parentNode.removeChild(element)
   })
 }
