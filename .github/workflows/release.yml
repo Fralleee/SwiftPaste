@@ -6,7 +6,7 @@ on:
       version:
         description: "Next version"
         required: true
-        default: ${{ github.event.inputs.version || steps.suggest-version.outputs.version || 'v0.1' }}
+        default: "${{ github.event.inputs.version || steps.suggest-version.outputs.version || 'v0.1' }}"
 
 jobs:
   suggest-version:
