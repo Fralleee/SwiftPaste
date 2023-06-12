@@ -48,7 +48,7 @@ jobs:
             nextVersion="${{ github.event.inputs.version }}"
           fi
 
-          echo "version=$nextVersion" >> $GITHUB_ENV
+          echo "version=$nextVersion" >> $GITHUB_OUTPUT
 
       # - name: Checkout
       #   uses: actions/checkout@v3
