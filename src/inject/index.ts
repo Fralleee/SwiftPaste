@@ -1,12 +1,12 @@
 import SwiftPasteSuggester from "./components/SwiftPasteSuggester"
-import { isValidElement } from "./utils/domUtils"
+import { isValidEditableElement } from "./utils/domUtils"
 
 removePreviousSwiftPasteInstances()
 activateSwiftPasteSuggester()
 
 function activateSwiftPasteSuggester() {
   const activeElement = document.activeElement as HTMLInputElement | HTMLTextAreaElement
-  if (!activeElement || activeElement === document.body || !isValidElement(activeElement)) {
+  if (!activeElement || activeElement === document.body || !isValidEditableElement(activeElement)) {
     return
   }
 

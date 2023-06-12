@@ -1,9 +1,17 @@
-export function isValidElement(element: HTMLElement): boolean {
+export function isValidEditableElement(element: HTMLElement): boolean {
   const elementTagName = element.tagName
   const isInputElement = elementTagName === "INPUT"
   const isTextAreaElement = elementTagName === "TEXTAREA"
   const isContentEditable = element.isContentEditable || element.contentEditable === "true"
   return isInputElement || isTextAreaElement || isContentEditable
+}
+
+export function isValidNonEditableElement(element: HTMLElement): boolean {
+  const elementTagName = element.tagName
+  const isInputElement = elementTagName === "INPUT"
+  const isTextAreaElement = elementTagName === "TEXTAREA"
+  const isContentEditable = element.isContentEditable || element.contentEditable === "true"
+  return !isInputElement && !isTextAreaElement && !isContentEditable
 }
 
 export function createObserver(activeElement: HTMLElement, removeRoot: Function) {
