@@ -1,15 +1,16 @@
 const fs = require("fs")
 const path = require("path")
 
-console.log("-- Log Args --")
-console.log(process.argv)
-console.log("-- /Log Args --")
-
-const [version] = process.argv.slice(2)
-const manifestPath = path.join(__dirname, "../", "src", "static", "manifest.json")
+const [version, customPath] = process.argv.slice(2)
+const manifestPath = path.join(__dirname, "../", customPath)
 
 if (!version) {
   console.error("Version number is required")
+  process.exit(1)
+}
+
+if (!customPath) {
+  console.error("Custom path is required")
   process.exit(1)
 }
 

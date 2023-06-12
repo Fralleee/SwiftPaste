@@ -10,6 +10,7 @@ export default class SwiftPasteSuggester {
   activeElement: HTMLInputElement | HTMLTextAreaElement
   rootContainer: HTMLElement
   container: HTMLElement
+  inputWrapper: HTMLDivElement
   inputField: HTMLInputElement
   suggestionList: HTMLUListElement
   suggestions: Suggestion[]
@@ -25,7 +26,8 @@ export default class SwiftPasteSuggester {
     this.rootContainer = document.createElement("div")
     this.rootContainer.classList.add("SwiftPaste")
     this.container = Container()
-    this.inputField = InputField()
+    ;({ wrapperDiv: this.inputWrapper, inputField: this.inputField } = InputField())
+
     this.suggestionList = SuggestionList()
 
     this.inputField.addEventListener("input", this.handleInputChange.bind(this))
@@ -45,15 +47,14 @@ export default class SwiftPasteSuggester {
 
     shadowRoot.appendChild(styleElement)
     shadowRoot.appendChild(this.container)
+    this.container.appendChild(this.suggestionList)
+    this.container.appendChild(this.inputWrapper)
 
     if (expandsUpward) {
-      this.container.appendChild(this.suggestionList)
-      this.container.appendChild(this.inputField)
+      this.container.classList.add("up")
       this.container.style.left = `${offsetX}px`
       this.container.style.bottom = `${offsetY}px`
     } else {
-      this.container.appendChild(this.inputField)
-      this.container.appendChild(this.suggestionList)
       this.container.style.left = `${offsetX}px`
       this.container.style.top = `${offsetY}px`
     }

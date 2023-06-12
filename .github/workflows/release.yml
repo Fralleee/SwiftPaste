@@ -13,14 +13,66 @@ jobs:
     env:
       NEXT_VERSION: ${{ github.event.inputs.version }}
     steps:
-      - name: Output Next Version
-        run: echo "Next Version ${{ env.NEXT_VERSION }}"
-
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: "Bump version"
-        run: node scripts/updateManifestVersion.js ${{ env.NEXT_VERSION }}
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build extension
+        run: npm run build
+
+      - name: Bump version of compiled manifest.json
+        run: node scripts/updateManifestVersion.js ${{ env.NEXT_VERSION }} dist/manifest.json
+
+      - name: Zip the extension
+        run: zip -r chrome-extension.zip dist
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: chrome-extension
+          path: chrome-extension.zip
+
+  publish:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    env:
+      EXTENSION_ID: ocamjpjndljkgcoeadplclcoiepjicgj
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: chrome-extension
+
+      - name: Install webstore cli
+        run: npm install -g chrome-webstore-upload-cli
+
+      - name: Upload to web store
+        run: chrome-webstore-upload upload --source chrome-extension.zip --extension-id ${{ env.EXTENSION_ID }} --client-id ${{ secrets.CHROME_CLIENT_ID }} --client-secret ${{ secrets.CHROME_CLIENT_SECRET }} --refresh-token ${{ secrets.CHROME_REFRESH_TOKEN }}
+
+  release:
+    needs: publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: "Bump version of manifest.json"
+        run: node scripts/updateManifestVersion.js ${{ env.NEXT_VERSION }} src/static/manifest.json
 
       - name: Update manifest
         uses: test-room-7/action-update-file@v1
@@ -29,65 +81,15 @@ jobs:
           commit-msg: Update manifest
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      # - name: Checkout
-      #   uses: actions/checkout@v3
-
-      # - name: Set up Node.js
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: 18
-
-      # - name: Install dependencies
-      #   run: npm install
-
-      # - name: Run tests
-      #   run: npm test
-
-      # - name: Build extension
-      #   run: npm run build
-
-      # - name: Bump version
-      #   run: node scripts/updateManifestVersion.js ${{ env.NEXT_VERSION }}
-
-      # - name: Zip the extension
-      #   run: zip -r chrome-extension.zip dist
-
-      # - name: Upload artifact
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: chrome-extension
-      #     path: chrome-extension.zip
-
-  # publish:
-  #   needs: build-and-test
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     EXTENSION_ID: ocamjpjndljkgcoeadplclcoiepjicgj
-  #   steps:
-  #     - name: Download artifact
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         name: chrome-extension
-
-  #     - name: Install webstore cli
-  #       run: npm install -g chrome-webstore-upload-cli
-
-  #     - name: Upload to web store
-  #       run: chrome-webstore-upload upload --source chrome-extension.zip --extension-id ${{ env.EXTENSION_ID }} --client-id ${{ secrets.CHROME_CLIENT_ID }} --client-secret ${{ secrets.CHROME_CLIENT_SECRET }} --refresh-token ${{ secrets.CHROME_REFRESH_TOKEN }}
-
-  # release:
-  #   needs: publish
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-
-  #     - name: Setup Node.js
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 18
-
-  #     - name: Semantic Release
-  #       uses: cycjimmy/semantic-release-action@v3
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.NEXT_VERSION }}
+          release_name: Release ${{ env.NEXT_VERSION }}
+          body: |
+            Release ${{ env.NEXT_VERSION }}
+            Add release notes or description here
+          draft: false
+          prerelease: false
