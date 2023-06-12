@@ -6,10 +6,27 @@ on:
       version:
         description: "Next version"
         required: true
+        default: ${{ github.event.inputs.version || steps.suggest-version.outputs.version || 'v0.1' }}
 
 jobs:
+  suggest-version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get-latest-version.outputs.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get latest version from tags
+        id: get-latest-version
+        run: |
+          git fetch --tags
+          latestTag=$(git describe --tags $(git rev-list --tags --max-count=1))
+          echo "::set-output name=version::$latestTag"
+
   build-and-test:
     runs-on: ubuntu-latest
+    needs: suggest-version
     env:
       NEXT_VERSION: ${{ github.event.inputs.version }}
     steps:
@@ -70,16 +87,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-
-      - name: "Bump version of manifest.json"
-        run: node scripts/updateManifestVersion.js ${{ env.NEXT_VERSION }} src/static/manifest.json
-
-      - name: Update manifest
-        uses: test-room-7/action-update-file@v1
-        with:
-          file-path: src/static/manifest.json
-          commit-msg: Update manifest
-          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create GitHub Release
         uses: actions/create-release@v1
