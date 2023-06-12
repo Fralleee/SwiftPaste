@@ -10,7 +10,6 @@ on:
 
 jobs:
   build-and-deploy:
-    needs: validate-version
     runs-on: ubuntu-latest
     env:
       EXTENSION_ID: ocamjpjndljkgcoeadplclcoiepjicgj
