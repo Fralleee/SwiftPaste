@@ -23,7 +23,7 @@ jobs:
           else
             latestTag=""
           fi
-          echo "tag=$latestTag" >> $GITHUB_ENV
+          echo "tag=$latestTag" >> $GITHUB_OUTPUT
 
       - name: Validate version
         id: validate-version
@@ -38,9 +38,10 @@ jobs:
             nextVersion=$(python -c "import re; m = re.match(r'(\d+\.\d+)', '$latestTag'); v = float(m.group(1)); print('{:.1f}'.format(v + 0.1))")
           else
             nextVersion="${{ github.event.inputs.version }}"
+            nextVersion="booba"
           fi
 
-          echo "version=$nextVersion" >> $GITHUB_ENV
+          echo "version=$nextVersion" >> $GITHUB_OUTPUT
   build-and-test:
     needs: validate-version
     runs-on: ubuntu-latest
