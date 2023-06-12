@@ -1,5 +1,5 @@
 import cssStyles from "../styles/popupStyles"
-import { createObserver, getAdjacentFocusableElement, isValidNonEditableElement } from "../utils/domUtils"
+import { getAdjacentFocusableElement } from "../utils/domUtils"
 import { calculatePosition } from "../utils/positionUtils"
 import { selectPreviousSuggestion, selectNextSuggestion, fuzzySearch } from "../utils/suggestionUtils"
 import Container from "./Container"
@@ -16,7 +16,6 @@ export default class SwiftPasteSuggester {
   suggestions: Suggestion[]
   isBeingRemoved: boolean = false
   disconnectObserver: Function | null = null
-  boundHandlePopupKeyDown: (event: KeyboardEvent) => void
   boundHandleDocumentClickOutside: (event: MouseEvent) => void
   selectedSuggestionIndex = 0
   filterText = ""
@@ -34,9 +33,7 @@ export default class SwiftPasteSuggester {
 
     this.inputField.addEventListener("input", this.handleInputChange.bind(this))
     this.rootContainer.addEventListener("focusout", this.handleRootContainerFocusOut.bind(this))
-
-    this.boundHandlePopupKeyDown = this.handlePopupKeyDown.bind(this)
-    document.addEventListener("keydown", this.boundHandlePopupKeyDown)
+    this.container.addEventListener("keydown", this.handlePopupKeyDown.bind(this))
 
     this.boundHandleDocumentClickOutside = this.handleDocumentClickOutside.bind(this)
     document.addEventListener("click", this.boundHandleDocumentClickOutside)
@@ -116,34 +113,6 @@ export default class SwiftPasteSuggester {
       case "ArrowDown":
         selectNextSuggestion(this)
         event.preventDefault()
-        break
-      case "Backspace":
-        const cursorPosition = this.inputField.selectionStart
-        if (cursorPosition > 0) {
-          const newValue = this.inputField.value.substring(0, cursorPosition - 1) + this.inputField.value.substring(cursorPosition)
-          this.inputField.value = newValue
-          this.inputField.setSelectionRange(cursorPosition - 1, cursorPosition - 1)
-
-          const inputEvent = new InputEvent("input", event)
-          this.inputField.dispatchEvent(inputEvent)
-        }
-        event.preventDefault()
-        break
-      default:
-        if (!event.ctrlKey && !event.altKey && !event.metaKey) {
-          const char = event.key
-          if (/[a-zA-Z0-9-_ ]/.test(char)) {
-            const cursorPosition = this.inputField.selectionStart
-            const newValue = this.inputField.value.substring(0, cursorPosition) + char + this.inputField.value.substring(cursorPosition)
-            this.inputField.value = newValue
-            this.inputField.setSelectionRange(cursorPosition + 1, cursorPosition + 1)
-
-            const inputEvent = new InputEvent("input", event)
-            this.inputField.dispatchEvent(inputEvent)
-
-            event.preventDefault()
-          }
-        }
         break
     }
   }
@@ -277,7 +246,6 @@ export default class SwiftPasteSuggester {
       this.disconnectObserver()
     }
 
-    document.removeEventListener("keydown", this.boundHandlePopupKeyDown)
     document.removeEventListener("click", this.boundHandleDocumentClickOutside)
 
     if (focusActiveElement) {
