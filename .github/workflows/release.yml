@@ -23,7 +23,7 @@ jobs:
           else
             latestTag=""
           fi
-          echo "::set-output name=tag::$latestTag"
+          echo "tag=$latestTag" >> $GITHUB_ENV
 
       - name: Validate version
         id: validate-version
@@ -37,15 +37,17 @@ jobs:
             echo "Using the latest tag version and incrementing it for the release."
             nextVersion=$(python -c "import re; m = re.match(r'(\d+\.\d+)', '$latestTag'); v = float(m.group(1)); print('{:.1f}'.format(v + 0.1))")
           else
-            nextVersion="${{ github.event.inputs.version }}"
+            nextVersion = "bajs"
+            # nextVersion="${{ github.event.inputs.version }}"
           fi
 
-          echo "::set-output name=version::$nextVersion"
+          echo $nextVersion
+          echo "version=$nextVersion" >> $GITHUB_ENV
   build-and-test:
     needs: validate-version
     runs-on: ubuntu-latest
     env:
-      NEXT_VERSION: ${{ github.event.inputs.version }}
+      NEXT_VERSION: ${{ needs.validate-version.outputs.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -81,6 +83,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       EXTENSION_ID: ocamjpjndljkgcoeadplclcoiepjicgj
+      NEXT_VERSION: ${{ needs.build-and-test.env.NEXT_VERSION }}
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
@@ -96,6 +99,8 @@ jobs:
   release:
     needs: publish
     runs-on: ubuntu-latest
+    env:
+      NEXT_VERSION: ${{ needs.publish.env.NEXT_VERSION }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
