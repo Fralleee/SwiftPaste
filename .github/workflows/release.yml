@@ -12,6 +12,9 @@ jobs:
   validate-version:
     runs-on: ubuntu-latest
     steps:
+      - name: Log version
+        run: echo "Validated version ${{ github.event.inputs.version }}"
+
       - name: Checkout
         uses: actions/checkout@v3
 
@@ -46,7 +49,7 @@ jobs:
     needs: validate-version
     runs-on: ubuntu-latest
     env:
-      NEXT_VERSION: ${{ steps.validate-version.outputs.version }}
+      NEXT_VERSION: ${{ needs.validate-version.outputs.version }}
     steps:
       - name: Log version
         run: echo "Validated version $NEXT_VERSION ${{ env.NEXT_VERSION }}"
