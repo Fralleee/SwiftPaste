@@ -14,7 +14,7 @@ export default class SwiftPasteSuggester {
   inputField: HTMLInputElement
   suggestionList: HTMLUListElement
   suggestions: Suggestion[]
-  isUnmounting: boolean = false
+  isBeingRemoved: boolean = false
   disconnectObserver: Function | null = null
   boundHandlePopupKeyDown: (event: KeyboardEvent) => void
   boundHandleDocumentClickOutside: (event: MouseEvent) => void
@@ -70,25 +70,26 @@ export default class SwiftPasteSuggester {
     this.inputField.focus()
   }
 
-  handleDocumentClickOutside(event) {
-    if (event.target instanceof HTMLElement) {
-      if (!this.rootContainer.contains(event.target)) {
-        this.removeRoot()
-      }
+  private handleDocumentClickOutside(event): void {
+    if (!(event.target instanceof HTMLElement)) {
+      return
+    }
+    if (!this.rootContainer.contains(event.target)) {
+      this.removeRoot()
     }
   }
 
-  handleRootContainerFocusOut() {
+  private handleRootContainerFocusOut(): void {
     this.removeRoot(false)
   }
 
-  handleInputChange(event) {
+  private handleInputChange(event): void {
     event.preventDefault()
     this.filterText = this.inputField.value.toLowerCase()
     this.filterSuggestions()
   }
 
-  handlePopupKeyDown(event: KeyboardEvent) {
+  private handlePopupKeyDown(event: KeyboardEvent): void {
     switch (event.code) {
       case "Escape":
         this.removeRoot()
@@ -100,7 +101,7 @@ export default class SwiftPasteSuggester {
         break
       case "Tab":
         const direction = event.shiftKey ? "previous" : "next"
-        var adjacentFocusableElement = getAdjacentFocusableElement(this.activeElement, direction)
+        const adjacentFocusableElement = getAdjacentFocusableElement(this.activeElement, direction)
         if (adjacentFocusableElement) {
           adjacentFocusableElement.focus()
         } else {
@@ -147,27 +148,31 @@ export default class SwiftPasteSuggester {
     }
   }
 
-  handleSuggestionSelection() {
+  private handleSelectSuggestion(value: string): void {
+    this.replaceValue(value)
+    this.removeRoot()
+  }
+
+  private handleSuggestionSelection(): void {
     const selectedSuggestion = this.suggestionList.querySelector(".swiftPastePopup__suggestion.selected") as HTMLDivElement | null
     if (selectedSuggestion) {
       const value = selectedSuggestion.getAttribute("data-value")
       if (value) {
-        this.replaceValue(value)
-        this.removeRoot()
+        this.handleSelectSuggestion(value)
       }
     }
   }
 
-  updateSelectedSuggestionIndex(index: number) {
+  updateSelectedSuggestionIndex(index: number): void {
     this.selectedSuggestionIndex = index
   }
 
-  filterSuggestions() {
+  private filterSuggestions(): void {
     const filteredSuggestions = fuzzySearch(this.filterText, this.suggestions)
     this.populateSuggestionList(filteredSuggestions)
   }
 
-  populateSuggestionList(suggestions: Suggestion[]) {
+  private populateSuggestionList(suggestions: Suggestion[]): void {
     this.suggestionList.innerHTML = ""
     suggestions.forEach((suggestion, index) => {
       const suggestionElement = document.createElement("li")
@@ -194,8 +199,7 @@ export default class SwiftPasteSuggester {
       suggestionElement.addEventListener("mousedown", event => {
         const value = suggestionElement.getAttribute("data-value")
         if (value) {
-          this.replaceValue(value)
-          this.removeRoot()
+          this.handleSelectSuggestion(value)
         }
         event.preventDefault()
       })
@@ -206,16 +210,16 @@ export default class SwiftPasteSuggester {
     })
   }
 
-  replaceValue(value: string) {
+  private replaceValue(value: string): void {
     const element = this.activeElement
     element.focus()
 
     if (!document.execCommand("insertText", false, value)) {
-      // this.replaceValueFallback(value)
+      this.replaceValueFallback(value)
     }
   }
 
-  replaceValueFallback(value: string) {
+  private replaceValueFallback(value: string): void {
     const element = this.activeElement
     for (let i = 0; i < value.length; i++) {
       const char = value.charAt(i)
@@ -259,13 +263,13 @@ export default class SwiftPasteSuggester {
     element.dispatchEvent(changeEvent)
   }
 
-  removeRoot(focusActiveElement: boolean = true) {
-    if (this.isUnmounting) {
+  private removeRoot(focusActiveElement: boolean = true): void {
+    if (this.isBeingRemoved) {
       return
     }
 
-    if (this.rootContainer && this.rootContainer.parentElement && this.rootContainer.parentElement.contains(this.rootContainer)) {
-      this.isUnmounting = true
+    if (this.rootContainer?.parentElement?.contains(this.rootContainer)) {
+      this.isBeingRemoved = true
       this.rootContainer.parentElement.removeChild(this.rootContainer)
     }
 
