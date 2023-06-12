@@ -169,6 +169,13 @@ export default class SwiftPasteSuggester {
     const element = this.activeElement
     element.focus()
 
+    if (!document.execCommand("insertText", false, value)) {
+      this.replaceValueFallback(value)
+    }
+  }
+
+  replaceValueFallback(value: string) {
+    const element = this.activeElement
     for (let i = 0; i < value.length; i++) {
       const char = value.charAt(i)
       const eventOptions = {
