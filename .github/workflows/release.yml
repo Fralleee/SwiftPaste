@@ -46,17 +46,16 @@ jobs:
             nextVersion=$(python -c "import re; m = re.match(r'(\d+\.\d+)', '$latestTag'); v = float(m.group(1)); print('{:.1f}'.format(v + 0.1))")
           else
             nextVersion="${{ github.event.inputs.version }}"
-            nextVersion="booba"
           fi
 
-          echo "version=$nextVersion" >> $GITHUB_OUTPUT
+          echo "NEXT_VERSION=$nextVersion" >> $GITHUB_ENV
 
   build-and-deploy:
     needs: validate-version
     runs-on: ubuntu-latest
     env:
       EXTENSION_ID: ocamjpjndljkgcoeadplclcoiepjicgj
-      NEXT_VERSION: ${{ needs.validate-version.outputs.version }}
+      # NEXT_VERSION: ${{ needs.validate-version.outputs.version }}
     steps:
       - name: Log version
         run: echo "Validated version ${{ env.NEXT_VERSION }}"
@@ -93,8 +92,8 @@ jobs:
   release:
     needs: build-and-deploy
     runs-on: ubuntu-latest
-    env:
-      NEXT_VERSION: ${{ needs.build-and-deploy.env.NEXT_VERSION }}
+    # env:
+    #   NEXT_VERSION: ${{ needs.build-and-deploy.env.NEXT_VERSION }}
     steps:
       - name: Log version
         run: echo "Validated version ${{ env.NEXT_VERSION }}"
