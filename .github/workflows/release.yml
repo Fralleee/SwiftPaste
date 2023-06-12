@@ -31,10 +31,13 @@ jobs:
       - name: Validate version
         id: validate-version
         run: |
-          latestTag="${{ needs.last-tag.outputs.tag }}"
+          latestTag="${{ steps.last-tag.outputs.tag }}"
           echo "Latest Tag: $latestTag"
 
+          echo "Validated version ${{ github.event.inputs.version }}"
+
           version="${{ github.event.inputs.version }}"
+
           if [[ "$latestTag" && "$version" < "$latestTag" ]]; then
             echo "The provided version is older than the latest tag."
             echo "Using the latest tag version and incrementing it for the release."
@@ -44,6 +47,7 @@ jobs:
             nextVersion="booba"
           fi
 
+          echo "Validated version $nextVersion"
           echo "version=$nextVersion" >> $GITHUB_OUTPUT
   build-and-test:
     needs: validate-version
