@@ -37,11 +37,9 @@ jobs:
             echo "Using the latest tag version and incrementing it for the release."
             nextVersion=$(python -c "import re; m = re.match(r'(\d+\.\d+)', '$latestTag'); v = float(m.group(1)); print('{:.1f}'.format(v + 0.1))")
           else
-            nextVersion = "bajs"
-            # nextVersion="${{ github.event.inputs.version }}"
+            nextVersion="${{ github.event.inputs.version }}"
           fi
 
-          echo $nextVersion
           echo "version=$nextVersion" >> $GITHUB_ENV
   build-and-test:
     needs: validate-version
@@ -49,6 +47,9 @@ jobs:
     env:
       NEXT_VERSION: ${{ needs.validate-version.outputs.version }}
     steps:
+      - name: Log version
+        run: echo "Validated version $NEXT_VERSION"
+
       - name: Checkout
         uses: actions/checkout@v3
 
