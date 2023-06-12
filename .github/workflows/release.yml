@@ -18,7 +18,11 @@ jobs:
       - name: Determine last found tag
         id: last-tag
         run: |
-          latestTag=$(git describe --tags $(git rev-list --tags --max-count=1))
+          if [[ $(git tag) ]]; then
+            latestTag=$(git describe --tags $(git rev-list --tags --max-count=1))
+          else
+            latestTag=""
+          fi
           echo "::set-output name=tag::$latestTag"
 
       - name: Validate version
@@ -28,7 +32,7 @@ jobs:
           echo "Latest Tag: $latestTag"
 
           version="${{ github.event.inputs.version }}"
-          if [[ "$version" < "$latestTag" ]]; then
+          if [[ "$latestTag" && "$version" < "$latestTag" ]]; then
             echo "The provided version is older than the latest tag."
             echo "Using the latest tag version and incrementing it for the release."
             nextVersion=$(python -c "import re; m = re.match(r'(\d+\.\d+)', '$latestTag'); v = float(m.group(1)); print('{:.1f}'.format(v + 0.1))")
