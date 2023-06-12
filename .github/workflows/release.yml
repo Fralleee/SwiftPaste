@@ -8,7 +8,14 @@ on:
         required: true
 
 jobs:
+  checkout:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
   validate-version:
+    needs: checkout
     runs-on: ubuntu-latest
     steps:
       - name: Determine last found tag
@@ -39,9 +46,6 @@ jobs:
     env:
       NEXT_VERSION: ${{ github.event.inputs.version }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -89,14 +93,6 @@ jobs:
     needs: publish
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
       - name: Create GitHub Release
         uses: actions/create-release@v1
         env:
