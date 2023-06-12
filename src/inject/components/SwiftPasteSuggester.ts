@@ -46,7 +46,11 @@ export default class SwiftPasteSuggester {
     const styleElement = document.createElement("style")
     styleElement.textContent = cssStyles
 
-    const { offsetX, offsetY, expandsUpward, origin } = calculatePosition(activeElement.getBoundingClientRect())
+    const { offsetX, offsetY, expandsUpward, origin } = calculatePosition(
+      activeElement.getBoundingClientRect(),
+      window.innerWidth,
+      window.innerHeight
+    )
     this.container.style.transformOrigin = origin.join(" ")
 
     shadowRoot.appendChild(styleElement)

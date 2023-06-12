@@ -1,12 +1,14 @@
-export function calculatePosition(activeElementPosition: DOMRect): {
+export function calculatePosition(
+  activeElementPosition: DOMRect,
+  windowWidth: number,
+  windowHeight: number
+): {
   offsetX: number
   offsetY: number
   expandsUpward: boolean
   origin: string[]
 } {
   const margin = 4
-  const windowWidth = window.innerWidth
-  const windowHeight = window.innerHeight
 
   const popupWidth = 280
   const popupMaxHeight = 300
