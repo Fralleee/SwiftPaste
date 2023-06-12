@@ -59,7 +59,7 @@ jobs:
       NEXT_VERSION: ${{ needs.validate-version.outputs.version }}
     steps:
       - name: Log version
-        run: echo "Validated version ${{ github.event.inputs.version }}"
+        run: echo "Validated version ${{ env.NEXT_VERSION }}"
 
       # - name: Checkout
       #   uses: actions/checkout@v3
@@ -97,7 +97,7 @@ jobs:
       NEXT_VERSION: ${{ needs.build-and-deploy.env.NEXT_VERSION }}
     steps:
       - name: Log version
-        run: echo "Validated version ${{ github.event.inputs.version }}"
+        run: echo "Validated version ${{ env.NEXT_VERSION }}"
 
       # - name: Checkout
       #   uses: actions/checkout@v3
