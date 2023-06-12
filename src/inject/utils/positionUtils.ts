@@ -8,7 +8,7 @@ export function calculatePosition(activeElementPosition: DOMRect): {
   const windowWidth = window.innerWidth
   const windowHeight = window.innerHeight
 
-  const popupWidth = 220
+  const popupWidth = 280
   const popupMaxHeight = 300
 
   let expandsUpward = false
