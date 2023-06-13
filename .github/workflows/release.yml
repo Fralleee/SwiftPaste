@@ -58,6 +58,9 @@ jobs:
           echo "version=$nextVersion" >> $GITHUB_OUTPUT
           echo "version=$nextVersion" >> $GITHUB_ENV
 
+      - name: Log version
+        run: echo "Setting version to ${{ env.version }}"
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
