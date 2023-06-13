@@ -57,31 +57,31 @@ jobs:
           echo "version=$nextVersion" >> $GITHUB_OUTPUT
           echo "version=$nextVersion" >> $GITHUB_ENV
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
+      # - name: Set up Node.js
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: 18
 
-      - name: Install dependencies
-        run: npm install --legacy-peer-deps
+      # - name: Install dependencies
+      #   run: npm install --legacy-peer-deps
 
-      - name: Run tests
-        run: npm test
+      # - name: Run tests
+      #   run: npm test
 
-      - name: Build extension
-        run: npm run build
+      # - name: Build extension
+      #   run: npm run build
 
-      - name: Bump version of compiled manifest.json
-        run: node scripts/updateManifestVersion.js ${{ env.version }} dist/manifest.json
+      # - name: Bump version of compiled manifest.json
+      #   run: node scripts/updateManifestVersion.js ${{ env.version }} dist/manifest.json
 
-      - name: Zip the extension
-        run: zip -r chrome-extension.zip dist
+      # - name: Zip the extension
+      #   run: zip -r chrome-extension.zip dist
 
-      - name: Install webstore cli
-        run: npm install -g chrome-webstore-upload-cli
+      # - name: Install webstore cli
+      #   run: npm install -g chrome-webstore-upload-cli
 
-      - name: Upload to web store
-        run: chrome-webstore-upload upload --source chrome-extension.zip --extension-id ${{ env.EXTENSION_ID }} --client-id ${{ secrets.CHROME_CLIENT_ID }} --client-secret ${{ secrets.CHROME_CLIENT_SECRET }} --refresh-token ${{ secrets.CHROME_REFRESH_TOKEN }}
+      # - name: Upload to web store
+      #   run: chrome-webstore-upload upload --source chrome-extension.zip --extension-id ${{ env.EXTENSION_ID }} --client-id ${{ secrets.CHROME_CLIENT_ID }} --client-secret ${{ secrets.CHROME_CLIENT_SECRET }} --refresh-token ${{ secrets.CHROME_REFRESH_TOKEN }}
 
   release:
     needs: build-and-deploy
@@ -97,15 +97,18 @@ jobs:
         with:
           node-version: 18
 
-      - name: Create GitHub Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ env.NEXT_VERSION }}
-          release_name: Release ${{ env.NEXT_VERSION }}
-          body: |
-            Release ${{ env.NEXT_VERSION }}
-            Add release notes or description here
-          draft: false
-          prerelease: false
+      - name: Get commit messages
+        id: get-commit-messages
+        run: |
+          echo "version=$$(git log $(git describe --tags $(git rev-list --tags --max-count=1))..HEAD --pretty=format:'%s' | tr '\n' ' ')" >> $GITHUB_OUTPUT
+
+      # - name: Create GitHub Release
+      #   uses: actions/create-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     tag_name: ${{ env.NEXT_VERSION }}
+      #     release_name: Release ${{ env.NEXT_VERSION }}
+      #     body: ${{ steps.get-commit-messages.outputs.messages }}
+      #     draft: false
+      #     prerelease: false
