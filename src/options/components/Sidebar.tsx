@@ -19,12 +19,35 @@ const Sidebar = () => {
         suggestions list.
       </p>
 
-      <div className="flex gap-2">
+      <div className="flex flex-col gap-2 items-center">
         <p className="m-0 font-bold">Toggle extension with</p>
         <kbd className="kbd kbd-sm">{shortcut}</kbd>
       </div>
 
       <div>
+        <div tabIndex={0} className="collapse collapse-arrow ">
+          <div className="collapse-title font-bold select-none">❓ Change shortcut</div>
+          <div className="collapse-content">
+            <p className="p-0 m-0">
+              To change the shortcut for this extension, please follow these steps:
+              <ol>
+                <li>Open a new tab in your browser.</li>
+                <li>
+                  Type in <strong>'chrome://extensions/shortcuts'</strong> in the address bar and hit enter.
+                </li>
+                <li>
+                  Scroll until you find <strong>SwiftPaste</strong> in the list.
+                </li>
+                <li>
+                  Click on the box representing the shortcut key for <strong>Open "SwiftPaste" popup</strong> and press the new shortcut key
+                  you want to use.
+                </li>
+                <li>Close the tab when you are done. Your new shortcut is now set!</li>
+              </ol>
+            </p>
+          </div>
+        </div>
+
         <div tabIndex={0} className="collapse collapse-arrow ">
           <div className="collapse-title font-bold select-none">👍 Add a Suggestion</div>
           <div className="collapse-content">
