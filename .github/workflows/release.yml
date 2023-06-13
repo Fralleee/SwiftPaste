@@ -35,23 +35,21 @@ jobs:
         run: |
           latestTag="${{ env.tag }}"
           echo "Latest Tag: $latestTag"
+          echo "Input version: ${{ github.event.inputs.version }}"
 
-          inputVersion="${{ github.event.inputs.version }}"
-          echo "Input Version: $inputVersion"
+          latestTag=${latestTag}
+          inputVersion=${{ github.event.inputs.version }}
 
-          # Compare versions
-          if [[ "$(printf '%s\n' "$inputVersion" "$latestTag" | sort -V | tail -n 1)" = "$latestTag" ]]; then
-            echo "The provided version is older than or equals to the latest tag."
-            echo "Using the latest tag version and incrementing it for the release."
-            
-            # Split into array
-            IFS='.' read -ra my_array <<< "$latestTag"
+          IFS='.' read -ra VERSION_PARTS <<< "$latestTag"
 
-            # Bump patch version
-            my_array[2]=$((${my_array[2]} + 1))
+          major=${VERSION_PARTS[0]}
+          minor=${VERSION_PARTS[1]}
+          patch=${VERSION_PARTS[2]}
 
-            nextVersion="${my_array[0]}.${my_array[1]}.${my_array[2]}"
-          else
+          nextVersion="$major.$minor.$((patch + 1))"
+
+          if [[ "$inputVersion" > "$latestTag" ]]; then
+            echo "Input version is correct, using that"
             nextVersion="$inputVersion"
           fi
 
