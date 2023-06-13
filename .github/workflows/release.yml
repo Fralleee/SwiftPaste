@@ -101,7 +101,10 @@ jobs:
         id: get-commit-messages
         run: |
           messages=$(git log $(git describe --tags $(git rev-list --tags --max-count=1))..HEAD --pretty=format:'%s' | tr '\n' ' ')
-          echo "body=$messages" >> $GITHUB_ENV
+          echo "body=${messages}" >> $GITHUB_ENV
+
+      - name: Log body
+        run: echo "Body ${{ env.body }}"
 
       # - name: Create GitHub Release
       #   uses: actions/create-release@v1
