@@ -27,6 +27,28 @@ export const saveSuggestions = (suggestions: Suggestion[]): Promise<void> => {
   })
 }
 
+export const validateSuggestions = (suggestions: Suggestion[]): boolean => {
+  if (!Array.isArray(suggestions)) {
+    return false
+  }
+
+  for (const suggestion of suggestions) {
+    if (!validateSuggestion(suggestion)) return false
+  }
+
+  return true
+}
+
+export const indexSuggestions = (suggestions: Suggestion[]): Suggestion[] => {
+  const ids = suggestions.map(obj => obj.id)
+  const hasDuplicateIds = new Set(ids).size !== ids.length
+  if (hasDuplicateIds) {
+    return suggestions.map((suggestion, index) => ({ ...suggestion, id: index }))
+  }
+
+  return suggestions
+}
+
 const validateSuggestion = (suggestion: Suggestion): Suggestion | null => {
   if (suggestion.value && suggestion.label) {
     return suggestion

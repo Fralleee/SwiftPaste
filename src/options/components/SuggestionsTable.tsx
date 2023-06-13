@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from "react"
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faAdd, faRemove } from "@fortawesome/free-solid-svg-icons"
 
 interface SuggestionsTableProps {
   suggestions: Suggestion[]
@@ -71,10 +73,8 @@ const SuggestionsTable: React.FC<SuggestionsTableProps> = ({ suggestions, lastAd
                             />
                           </td>
                           <td className="flex justify-end">
-                            <button
-                              tabIndex={index * 3 + 3}
-                              className="btn btn-outline btn-xs btn-error w-28"
-                              onClick={() => onRemove(index)}>
+                            <button tabIndex={index * 3 + 3} className="btn btn-outline btn-xs btn-error" onClick={() => onRemove(index)}>
+                              <FontAwesomeIcon icon={faRemove} />
                               Remove
                             </button>
                           </td>
@@ -90,7 +90,8 @@ const SuggestionsTable: React.FC<SuggestionsTableProps> = ({ suggestions, lastAd
         </table>
       </DragDropContext>
       <div className="flex mt-8 gap-4 justify-end p-4">
-        <button tabIndex={99} className="btn btn-outline btn-sm btn-success w-28" onClick={onAdd}>
+        <button tabIndex={99} className="btn btn-outline btn-sm btn-success" onClick={onAdd}>
+          <FontAwesomeIcon icon={faAdd} />
           Insert
         </button>
       </div>

@@ -3,7 +3,7 @@ import { themeChange } from "theme-change"
 import Sidebar from "./Sidebar"
 import SuggestionsTable from "./SuggestionsTable"
 import TopControls from "./TopControls"
-import { fetchSuggestions, saveSuggestions } from "../utils/suggestionsUtils"
+import { fetchSuggestions, indexSuggestions, saveSuggestions, validateSuggestions } from "../utils/suggestionsUtils"
 import ThemeSwitch from "./ThemeSwitch"
 
 function Options() {
@@ -12,7 +12,14 @@ function Options() {
   const [isFormDirty, setFormDirty] = useState(false)
 
   useEffect(() => {
-    fetchSuggestions().then(setSuggestions)
+    fetchSuggestions().then(suggestions => {
+      if (!validateSuggestions(suggestions)) {
+        console.error("Invalid suggestions loaded from Storage.")
+        return
+      }
+
+      setSuggestions(indexSuggestions(suggestions))
+    })
   }, [])
 
   useEffect(() => {
@@ -94,27 +101,13 @@ function Options() {
         return
       }
 
-      if (!Array.isArray(data)) {
-        console.error("The uploaded file does not contain an array")
+      if (!validateSuggestions(data)) {
+        console.error("Invalid file.")
         return
       }
 
-      // Verify that each item in the array is a Suggestion
-      for (const item of data) {
-        if (
-          typeof item !== "object" ||
-          !item ||
-          typeof item.id !== "number" ||
-          typeof item.label !== "string" ||
-          typeof item.value !== "string"
-        ) {
-          console.error("The uploaded file contains invalid data")
-          return
-        }
-      }
-
       if (JSON.stringify(data) !== JSON.stringify(suggestions)) {
-        setSuggestions(data)
+        setSuggestions(indexSuggestions(data))
         setFormDirty(true)
       }
     }
