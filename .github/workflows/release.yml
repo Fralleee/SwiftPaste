@@ -100,7 +100,8 @@ jobs:
       - name: Get commit messages
         id: get-commit-messages
         run: |
-          echo "version=$$(git log $(git describe --tags $(git rev-list --tags --max-count=1))..HEAD --pretty=format:'%s' | tr '\n' ' ')" >> $GITHUB_OUTPUT
+          messages=$(git log $(git describe --tags $(git rev-list --tags --max-count=1))..HEAD --pretty=format:'%s' | tr '\n' ' ')
+          echo "body=$messages" >> $GITHUB_ENV
 
       # - name: Create GitHub Release
       #   uses: actions/create-release@v1
