@@ -26,8 +26,8 @@ The **SwiftPaste** magic can be conjured up by pressing the keyboard shortcut <k
 - 📚 Endless storage of suggestions! 1,000? 10,000? Heck, let's push it to 1,000,000!
 - 🔍 Ask and you shall receive! Fuzzy search is here to dig out your perfect entry.
 - 🔄 Syncs your storage across devices using your account, because we believe in unity!
-- 🔒 Your privacy is our priority, we don't touch any permissions or user data. Your storage stays yours! What you store is what you get! 🕵️‍♂️
-- 🆓 Say adios to tedious typing! Get SwiftPaste now, and stay free forever! 🎉
+- 🔒 Your privacy is our priority, we don't touch any permissions or user data. Your storage stays yours! What you store is what you get!
+- 🎉 Say adios to tedious typing! Get SwiftPaste now, and stay free forever!
 
 ## Configuration
 
