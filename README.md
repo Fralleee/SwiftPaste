@@ -13,7 +13,7 @@
   [Usage](#usage) •
   [Configuration](#configuration) •
   [Roadmap](#project-roadmap) •
-  [Contributing](#contributing) •
+  [Contributing](#contributing)
 
 </div>
 
