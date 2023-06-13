@@ -41,15 +41,21 @@ If you fancy changing the shortcut for this extension, do the following:
 
 ### Other configuration
 To gain control over your entries, open **SwiftPaste Settings** by doing this:
-  - Click the extensions icon in the top right of your Chrome browser and pin **SwiftPaste**.
 
-  ![Pin SwiftPaste](https://github.com/Fralleee/SwiftPaste/assets/6375613/f5a6e2e9-0c39-4389-8bae-67a936a19afb)
-  - Click the SwiftPaste icon to open the extension popup and click **Settings**.
-
-  ![Settings](https://github.com/Fralleee/SwiftPaste/assets/6375613/8a565560-391f-41f1-9c7e-58521a54a882)
-  - Follow the instructions on the **Settings page** and voila!
-
-  ![Settings page](https://github.com/Fralleee/SwiftPaste/assets/6375613/b888cb15-0489-4fdf-bb0e-428513394df7)
+  
+  <img alt="Pin extension" src="https://github.com/Fralleee/SwiftPaste/assets/6375613/f5a6e2e9-0c39-4389-8bae-67a936a19afb" />  
+  
+  Click the extensions icon in the top right of your Chrome browser and pin **SwiftPaste**.
+  
+  
+  <img alt="Settings" src="https://github.com/Fralleee/SwiftPaste/assets/6375613/8a565560-391f-41f1-9c7e-58521a54a882" />
+  
+  Click the SwiftPaste icon to open the extension popup and click **Settings**.
+  
+  
+  <img alt="Settings page" src="https://github.com/Fralleee/SwiftPaste/assets/6375613/b888cb15-0489-4fdf-bb0e-428513394df7" />  
+  
+  Follow the instructions on the **Settings page** and voila!
 
 ## Project Roadmap
 SwiftPaste is a newborn, still making its first steps in the wild world of extensions. It's focused on strengthening its basic features, thus there's no specific roadmap currently available. 
