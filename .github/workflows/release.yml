@@ -6,7 +6,7 @@ on:
       version:
         description: "Next version"
         required: true
-        default: v0.1
+        default: 0.1.0
 
 jobs:
   build-and-deploy:
@@ -25,6 +25,7 @@ jobs:
         run: |
           if [[ $(git tag) ]]; then
             latestTag=$(git describe --tags $(git rev-list --tags --max-count=1))
+            latestTag=${latestTag:1}
           else
             latestTag="0.0.0"
           fi
