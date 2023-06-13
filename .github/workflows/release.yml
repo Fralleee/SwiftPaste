@@ -26,26 +26,33 @@ jobs:
           if [[ $(git tag) ]]; then
             latestTag=$(git describe --tags $(git rev-list --tags --max-count=1))
           else
-            latestTag=""
+            latestTag="0.0.0"
           fi
-          echo "tag=$latestTag" >> $GITHUB_OUTPUT
+          echo "tag=$latestTag" >> $GITHUB_ENV
 
       - name: Validate version
         id: validate-version
         run: |
-          latestTag="${{ steps.last-tag.outputs.tag }}"
+          latestTag="${{ env.tag }}"
           echo "Latest Tag: $latestTag"
 
-          echo "Validated version ${{ github.event.inputs.version }}"
+          inputVersion="${{ github.event.inputs.version }}"
+          echo "Input Version: $inputVersion"
 
-          version="${{ github.event.inputs.version }}"
-
-          if [[ "$latestTag" && "$version" < "$latestTag" ]]; then
-            echo "The provided version is older than the latest tag."
+          # Compare versions
+          if [[ "$(printf '%s\n' "$inputVersion" "$latestTag" | sort -V | tail -n 1)" = "$latestTag" ]]; then
+            echo "The provided version is older than or equals to the latest tag."
             echo "Using the latest tag version and incrementing it for the release."
-            nextVersion=$(python -c "import re; m = re.match(r'(\d+\.\d+)', '$latestTag'); v = float(m.group(1)); print('{:.1f}'.format(v + 0.1))")
+            
+            # Split into array
+            IFS='.' read -ra my_array <<< "$latestTag"
+
+            # Bump patch version
+            my_array[2]=$((${my_array[2]} + 1))
+
+            nextVersion="${my_array[0]}.${my_array[1]}.${my_array[2]}"
           else
-            nextVersion="${{ github.event.inputs.version }}"
+            nextVersion="$inputVersion"
           fi
 
           echo "version=$nextVersion" >> $GITHUB_OUTPUT
