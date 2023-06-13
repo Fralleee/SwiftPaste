@@ -13,3 +13,6 @@ As progress is made and the project matures, a roadmap will be created to outlin
 Contributions are welcomed and appreciated! If you're interested in contributing to SwiftPaste, please take a moment to read our [Contributing Guide](CONTRIBUTING.md) for guidelines on how to get started.
 
 We value the contributions from the community and look forward to your ideas and improvements.
+
+
+---
