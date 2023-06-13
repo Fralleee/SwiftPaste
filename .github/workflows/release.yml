@@ -25,7 +25,6 @@ jobs:
         run: |
           if [[ $(git tag) ]]; then
             latestTag=$(git describe --tags $(git rev-list --tags --max-count=1))
-            latestTag=${latestTag:1}
           else
             latestTag="0.0.0"
           fi
