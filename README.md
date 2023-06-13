@@ -15,7 +15,7 @@
   [Roadmap](#project-roadmap) •
   [Contributing](#contributing)
 
-  [![Promo video](https://img.youtube.com/vi/FsShExaxxtY/0.jpg)](https://www.youtube.com/watch?v=FsShExaxxtY)
+  [![Promo video](https://img.youtube.com/vi/FsShExaxxtY/hqdefault.jpg)](https://www.youtube.com/watch?v=FsShExaxxtY)
 </div>
 
 ## Installation
