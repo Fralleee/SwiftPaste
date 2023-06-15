@@ -23,12 +23,18 @@ To install this extension that's cooler than the other side of the pillow, visit
 
 ## Usage
 The **SwiftPaste** magic can be conjured up by pressing the keyboard shortcut <kbd>Ctrl+Shift+Space</kbd> when your cursor is frolicking in an input field. 
-- 🌐 Works on ANY input (okay, not every single one, but we've got a pretty darn good coverage!)
-- 📚 Endless storage of suggestions! 1,000? 10,000? Heck, let's push it to 1,000,000!
-- 🔍 Ask and you shall receive! Fuzzy search is here to dig out your perfect entry.
-- 🔄 Syncs your storage across devices using your account, because we believe in unity!
-- 🔒 Your privacy is our priority, we don't touch any permissions or user data. Your storage stays yours! What you store is what you get!
-- 🎉 Say adios to tedious typing! Get SwiftPaste now, and stay free forever!
+
+🌐 Works on ANY input (okay, not every single one, but we've got a pretty darn good coverage!)
+
+📚 Endless storage of suggestions! 1,000? 10,000? Heck, let's push it to 1,000,000!
+
+🔍 Ask and you shall receive! Fuzzy search is here to dig out your perfect entry.
+
+🔄 Syncs your storage across devices using your account, because we believe in unity!
+
+🔒 Your privacy is our priority, we don't touch any permissions or user data. Your storage stays yours! What you store is what you get!
+
+🎉 Say adios to tedious typing! Get SwiftPaste now, and stay free forever!
 
 ## Configuration
 
