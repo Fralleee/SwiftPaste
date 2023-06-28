@@ -15,6 +15,7 @@
   },
   "description": "SwiftPaste is a Chrome extension that enhances your copy-paste workflow. It allows quick access to categorized clipboard data based on context, making tasks like form filling, coding, and communication more efficient. Contributions are welcomed. See the contributing guide for more details.",
   "devDependencies": {
+    "@playwright/test": "^1.35.1",
     "@tailwindcss/typography": "^0.5.9",
     "@testing-library/jest-dom": "^5.16.5",
     "@types/chrome": "^0.0.237",
@@ -63,7 +64,8 @@
     "dev:watch": "webpack --watch --config webpack.dev.js",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "playwright": "playwright test"
   },
   "version": "0.1.0"
 }
