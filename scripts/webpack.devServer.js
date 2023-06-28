@@ -7,23 +7,23 @@ const path = require("path")
 module.exports = merge(config, {
   mode: "development",
   devtool: "cheap-module-source-map",
-  entry: path.resolve(__dirname, "src/sandbox/index.tsx"),
+  entry: path.resolve("src/sandbox/index.tsx"),
   devServer: {
-    static: path.join(__dirname, "src/static"),
+    static: path.join("src/static"),
     compress: true,
     port: 3000,
     hot: true
   },
   output: {
     filename: "[name].js",
-    path: path.join(__dirname, "dist/sandbox")
+    path: path.join(__dirname, "../dist/sandbox")
   },
   plugins: [
     new CleanWebpackPlugin({
       cleanStaleWebpackAssets: false
     }),
     new HtmlPlugin({
-      template: path.resolve(__dirname, "src/template.html"),
+      template: path.resolve("src/template.html"),
       filename: "index.html",
       inject: "body"
     })

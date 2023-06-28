@@ -58,10 +58,10 @@
     "url": "git+https://github.com/Fralleee/SwiftPaste.git"
   },
   "scripts": {
-    "build": "webpack --progress --config webpack.prod.js",
+    "build": "webpack --progress --config ./scripts/webpack.prod.js",
     "dev": "concurrently \"npm run dev:start\" \"npm run dev:watch\"",
-    "dev:start": "webpack serve --config webpack.devServer.js",
-    "dev:watch": "webpack --watch --config webpack.dev.js",
+    "dev:start": "webpack serve --config ./scripts/webpack.devServer.js",
+    "dev:watch": "webpack --watch --config ./scripts/webpack.dev.js",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
