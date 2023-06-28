@@ -63,7 +63,7 @@ function Popup() {
 
         <div className="stats shadow grid w-min mx-auto">
           <div className="stat">
-            <div className="stat-title">Storage</div>
+            <div className="stat-title">Entries</div>
             <div className="stat-value">{entriesCount}</div>
             <div className="stat-desc">
               {(Math.round((bytesUsed / chrome.storage.sync.QUOTA_BYTES) * 10000) / 100).toFixed(2)}% of total storage used

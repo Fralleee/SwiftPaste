@@ -3,8 +3,9 @@ import { themeChange } from "theme-change"
 import Sidebar from "./Sidebar"
 import SuggestionsTable from "./SuggestionsTable"
 import TopControls from "./TopControls"
-import { fetchSuggestions, indexSuggestions, saveSuggestions, validateSuggestions } from "../utils/suggestionsUtils"
+import { fetchSuggestions, indexSuggestions, validateSuggestions } from "../utils/suggestionsUtils"
 import ThemeSwitch from "./ThemeSwitch"
+import { saveSuggestions } from "../../utils/chrome"
 
 function Options() {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([])

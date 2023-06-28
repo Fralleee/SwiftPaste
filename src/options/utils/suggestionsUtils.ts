@@ -12,21 +12,6 @@ export const fetchSuggestions = (): Promise<Suggestion[]> => {
   })
 }
 
-export const saveSuggestions = (suggestions: Suggestion[]): Promise<void> => {
-  const validatedSuggestions = suggestions.map(validateSuggestion).filter(Boolean)
-
-  return new Promise((resolve, reject) => {
-    chrome.storage.sync.set({ swiftPasteSuggestions: validatedSuggestions }, () => {
-      if (chrome.runtime.lastError) {
-        console.error(chrome.runtime.lastError.message)
-        reject(chrome.runtime.lastError)
-        return
-      }
-      resolve()
-    })
-  })
-}
-
 export const validateSuggestions = (suggestions: Suggestion[]): boolean => {
   if (!Array.isArray(suggestions)) {
     return false
@@ -49,7 +34,7 @@ export const indexSuggestions = (suggestions: Suggestion[]): Suggestion[] => {
   return suggestions
 }
 
-const validateSuggestion = (suggestion: Suggestion): Suggestion | null => {
+export const validateSuggestion = (suggestion: Suggestion): Suggestion | null => {
   if (suggestion.value && suggestion.label) {
     return suggestion
   }

@@ -1,3 +1,5 @@
+import { validateSuggestion } from "../options/utils/suggestionsUtils"
+
 export async function syncStorage(): Promise<number> {
   try {
     const existingSuggestions = await fetchEntries()
@@ -20,6 +22,13 @@ export async function syncStorage(): Promise<number> {
     console.error(error)
     throw error
   }
+}
+
+export async function saveSuggestions(suggestions: Suggestion[]): Promise<void> {
+  const validatedSuggestions = suggestions.map(validateSuggestion).filter(Boolean)
+  const date = Date.now()
+  await setStorageData({ swiftPasteSuggestions: validatedSuggestions })
+  await setStorageData({ lastSyncTime: date })
 }
 
 export async function fetchEntries(): Promise<any> {
