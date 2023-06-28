@@ -19,7 +19,18 @@ module.exports = {
     }
   },
   daisyui: {
-    themes: ["light", "night"]
+    themes: [
+      {
+        light: {
+          ...require("daisyui/src/theming/themes")["[data-theme=light]"],
+          primary: "#FF499B"
+        },
+        night: {
+          ...require("daisyui/src/theming/themes")["[data-theme=night]"],
+          primary: "#FF499B"
+        }
+      }
+    ]
   },
   plugins: [require("@tailwindcss/typography"), require("daisyui")]
 }

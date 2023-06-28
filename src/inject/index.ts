@@ -5,9 +5,33 @@ import { isValidElement } from "./utils/domUtils"
 removePreviousSwiftPasteInstances()
 activateSwiftPasteSuggester()
 
-function activateSwiftPasteSuggester() {
-  const activeElement = document.activeElement as HTMLInputElement | HTMLTextAreaElement
-  if (!activeElement || activeElement === document.body || !isValidElement(activeElement)) {
+interface SwiftPasteEnabledOptions {
+  extensionDisabled: boolean
+}
+
+async function activateSwiftPasteSuggester() {
+  try {
+    const result: SwiftPasteEnabledOptions = await new Promise((resolve, reject) => {
+      chrome.storage.sync.get("extensionDisabled", result => {
+        if (chrome.runtime.lastError) {
+          reject(chrome.runtime.lastError)
+        } else {
+          resolve(result as SwiftPasteEnabledOptions)
+        }
+      })
+    })
+
+    if (result.extensionDisabled) {
+      logger.log("SwiftPaste extension is currently disabled globally.")
+      return
+    }
+  } catch (error) {
+    logger.error("Error during sync.get:", error.message)
+    return
+  }
+
+  const activeElement = document.activeElement as HTMLElement
+  if (!isValidElement(activeElement)) {
     logger.log("No valid active element. Exiting activation process...")
     return
   }
@@ -18,17 +42,21 @@ function activateSwiftPasteSuggester() {
       return
     }
     const suggestions: Suggestion[] = result.swiftPasteSuggestions || []
-    new SwiftPasteSuggester(suggestions, activeElement)
+    new SwiftPasteSuggester(suggestions, activeElement as HTMLInputElement | HTMLTextAreaElement)
   })
 }
 
 function removePreviousSwiftPasteInstances() {
-  let elements = Array.from(document.querySelectorAll(".SwiftPaste"))
-  elements.forEach(element => {
-    element.parentNode.removeChild(element)
-  })
+  try {
+    let elements = Array.from(document.querySelectorAll(".SwiftPaste"))
+    elements.forEach(element => {
+      element.parentNode.removeChild(element)
+    })
 
-  if (elements.length > 0) {
-    logger.log(`Removed ${elements.length} SwiftPaste instances.`)
+    if (elements.length > 0) {
+      logger.log(`Removed ${elements.length} SwiftPaste instances.`)
+    }
+  } catch (exception) {
+    logger.log(exception)
   }
 }

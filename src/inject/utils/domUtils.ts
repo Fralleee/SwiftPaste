@@ -1,4 +1,7 @@
 export function isValidElement(element: HTMLElement): boolean {
+  if (!element || element === document.body) {
+    return false
+  }
   const elementTagName = element.tagName
   const isInputElement = elementTagName === "INPUT"
   const isTextAreaElement = elementTagName === "TEXTAREA"
