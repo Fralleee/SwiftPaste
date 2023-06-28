@@ -20,7 +20,7 @@ function ToggleExtension() {
       onChange={toggleExtension}
       title={`${isExtensionEnabled ? "Disable SwiftPaste" : "Enable SwiftPaste"}`}
       type="checkbox"
-      className="toggle toggle-primary"
+      className="toggle toggle-primary mx-1"
       checked={isExtensionEnabled}
     />
   )
