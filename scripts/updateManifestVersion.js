@@ -14,18 +14,18 @@ if (!customPath) {
   process.exit(1)
 }
 
-fs.readFile(manifestPath, "utf8", (err, data) => {
-  if (err) {
-    console.error(`Error reading file from disk: ${err}`)
+fs.readFile(manifestPath, "utf8", (error, data) => {
+  if (error) {
+    console.error(`Error reading file from disk: ${error.message}`)
     process.exit(1)
   }
 
   const manifest = JSON.parse(data)
   manifest.version = version
 
-  fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2), err => {
-    if (err) {
-      console.error(`Error writing file on disk: ${err}`)
+  fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2), error => {
+    if (error) {
+      console.error(`Error writing file on disk: ${error.message}`)
     }
   })
 })
