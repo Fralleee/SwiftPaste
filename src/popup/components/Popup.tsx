@@ -60,13 +60,17 @@ function Popup() {
           <p className="m-0 font-bold text-sm">Toggle extension with</p>
           <kbd className="kbd kbd-sm">{shortcut}</kbd>
         </div>
-
         <div className="stats shadow grid w-min mx-auto">
           <div className="stat">
-            <div className="stat-title">Entries</div>
-            <div className="stat-value">{entriesCount}</div>
-            <div className="stat-desc">
-              {(Math.round((bytesUsed / chrome.storage.sync.QUOTA_BYTES) * 10000) / 100).toFixed(2)}% of total storage used
+            <div className="stat-title">{entriesCount} entries</div>
+            <div className="stat-desc my-2">
+              <progress
+                className="progress progress-primary w-40 mb-2 block mx-auto"
+                value={(Math.round((bytesUsed / chrome.storage.sync.QUOTA_BYTES_PER_ITEM) * 10000) / 100).toFixed(2)}
+                max="100"></progress>
+              <em className="block w-full text-xs text-center">
+                {(Math.round((bytesUsed / chrome.storage.sync.QUOTA_BYTES_PER_ITEM) * 10000) / 100).toFixed(2)}% of total storage used
+              </em>
             </div>
           </div>
         </div>
