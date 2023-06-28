@@ -1,20 +1,11 @@
 import React, { useState, useEffect } from "react"
 
-function ToggleExtension() {
-  const [isExtensionEnabled, setIsExtensionEnabled] = useState(true)
+interface Props {
+  isExtensionEnabled: boolean
+  toggleExtension: (event: any) => void
+}
 
-  useEffect(() => {
-    chrome.storage.sync.get("extensionDisabled", result => {
-      setIsExtensionEnabled(!result.extensionDisabled)
-    })
-  }, [])
-
-  const toggleExtension = event => {
-    const { checked } = event.target
-    setIsExtensionEnabled(checked)
-    chrome.storage.sync.set({ extensionDisabled: !checked })
-  }
-
+function ToggleExtension({ isExtensionEnabled, toggleExtension }: Props) {
   return (
     <input
       onChange={toggleExtension}

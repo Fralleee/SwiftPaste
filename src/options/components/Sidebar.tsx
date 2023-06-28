@@ -20,7 +20,7 @@ const Sidebar = () => {
       </p>
 
       <div className="flex flex-col gap-2 items-center">
-        <p className="m-0 font-bold">Toggle extension with</p>
+        <p className="m-0 font-bold">Activate suggestions with</p>
         <kbd className="kbd kbd-sm">{shortcut}</kbd>
       </div>
 
