@@ -5,6 +5,7 @@ module.exports = {
   theme: {
     colors: {
       brand: "#FF499B",
+      "brand-disabled": "#FFA4CD",
       "brand-50": "#FFEBF5",
       "brand-100": "#FFD7EB",
       "brand-200": "#FFC2E2",

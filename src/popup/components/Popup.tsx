@@ -53,8 +53,8 @@ function Popup() {
 
   return (
     <div className="w-64">
-      <div className={`${isExtensionEnabled ? "border-brand" : "border-[#aaa]"} border-2 rounded m-1`}>
-        <div className={`flex justify-end items-center p-1 ${isExtensionEnabled ? "bg-brand" : "bg-[#aaa]"}`}>
+      <div className={`${isExtensionEnabled ? "border-brand" : "border-brand-disabled"} border-2 rounded m-1`}>
+        <div className={`flex justify-end items-center p-1 ${isExtensionEnabled ? "bg-brand" : "bg-brand-disabled"}`}>
           <button title="Sync storage" className="text-[white] text-lg btn-sm btn-circle hover:text-[#eee]" onClick={refreshStorage}>
             <FontAwesomeIcon icon={faRotate} />
           </button>
