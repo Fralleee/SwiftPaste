@@ -6,6 +6,11 @@
   ![GitHub](https://img.shields.io/github/license/fralleee/swiftpaste)
   ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/fralleee/swiftpaste/build-and-test.yml)
   ![GitHub issues](https://img.shields.io/github/issues/fralleee/swiftpaste)
+
+  [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Fralleee_SwiftPaste&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Fralleee_SwiftPaste)
+  [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=Fralleee_SwiftPaste&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=Fralleee_SwiftPaste)
+  [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Fralleee_SwiftPaste&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=Fralleee_SwiftPaste)
+  [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Fralleee_SwiftPaste&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Fralleee_SwiftPaste)
   
   Introducing **SwiftPaste**, a spiffy chrome extension that turbocharges your copy-paste experience. With quick access to categorized clipboard data based on context, it takes form filling, coding, and communication from a yawn-inducing task to a walk in the park. 
 
