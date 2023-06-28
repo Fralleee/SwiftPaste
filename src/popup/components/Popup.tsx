@@ -18,7 +18,10 @@ function Popup() {
   return (
     <div className="w-64">
       <div className="border-brand border-2 rounded m-1">
-        <div className="flex justify-end items-center bg-brand p-1">
+        <div className="flex justify-end items-center p-1 gap-1 bg-brand">
+          <button className="text-[white] text-lg btn-sm btn-circle hover:text-[#eee]" onClick={openOptionsPage}>
+            <FontAwesomeIcon icon={faCog} />
+          </button>
           <ToggleExtension />
         </div>
         <div className="flex items-center gap-3 p-3">
@@ -28,12 +31,6 @@ function Popup() {
         <div className="flex flex-col gap-1 items-center justify-center my-2 mb-4">
           <p className="m-0 font-bold text-sm">Toggle extension with</p>
           <kbd className="kbd kbd-sm">{shortcut}</kbd>
-        </div>
-        <div className="flex flex-col items-center justify-center">
-          <button className="btn btn-outline btn-info btn-sm my-3" onClick={openOptionsPage}>
-            <FontAwesomeIcon icon={faCog} />
-            Settings
-          </button>
         </div>
       </div>
     </div>
