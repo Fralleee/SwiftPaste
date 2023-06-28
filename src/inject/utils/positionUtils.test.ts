@@ -39,7 +39,6 @@ describe("calculatePosition", () => {
     const activeElementPosition = { top: 980, right: 200, bottom: 500, left: 180, width: 200, height: 20 } as DOMRect
     const windowWidth = 1920
     const windowHeight = 1080
-    const popupMaxHeight = 300
 
     const { offsetX, offsetY, expandsUpward } = calculatePosition(activeElementPosition, windowWidth, windowHeight)
 

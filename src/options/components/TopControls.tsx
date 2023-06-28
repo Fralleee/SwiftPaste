@@ -11,7 +11,7 @@ interface Props {
 }
 
 const TopControls = ({ isFormDirty, onSave, onReset, onDownload, onImport }: Props) => {
-  const fileInputRef = React.useRef(null)
+  const fileInputRef = useRef(null)
 
   const handleClick = () => {
     fileInputRef.current.click()

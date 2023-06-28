@@ -127,7 +127,7 @@ export default class SwiftPasteSuggester {
   }
 
   private handleSuggestionSelection(): void {
-    const selectedSuggestion = this.suggestionList.querySelector(".swiftPastePopup__suggestion.selected") as HTMLDivElement | null
+    const selectedSuggestion = this.suggestionList.querySelector(".swiftPastePopup__suggestion.selected")
     if (selectedSuggestion) {
       const value = selectedSuggestion.getAttribute("data-value")
       if (value) {
