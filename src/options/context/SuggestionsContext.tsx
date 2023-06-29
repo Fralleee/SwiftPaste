@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react"
+import React, { createContext, useEffect, useState, useMemo } from "react"
 import { fetchSuggestions, indexSuggestions, validateSuggestions } from "../../utils/suggestionsUtils"
 import { saveSuggestions } from "../../utils/chrome"
 
@@ -127,19 +127,34 @@ export function SuggestionsProvider({ children }) {
     }
   }, [handleBeforeUnload])
 
-  const contextValue = {
-    suggestions,
-    lastAddedIndex,
-    isFormDirty,
-    handleDragEnd,
-    handleFieldChange,
-    handleSaveButtonClick,
-    handleResetButtonClick,
-    addSuggestion,
-    removeSuggestion,
-    downloadSuggestions,
-    uploadSuggestions
-  }
+  const contextValue = useMemo(
+    () => ({
+      suggestions,
+      lastAddedIndex,
+      isFormDirty,
+      handleDragEnd,
+      handleFieldChange,
+      handleSaveButtonClick,
+      handleResetButtonClick,
+      addSuggestion,
+      removeSuggestion,
+      downloadSuggestions,
+      uploadSuggestions
+    }),
+    [
+      suggestions,
+      lastAddedIndex,
+      isFormDirty,
+      handleDragEnd,
+      handleFieldChange,
+      handleSaveButtonClick,
+      handleResetButtonClick,
+      addSuggestion,
+      removeSuggestion,
+      downloadSuggestions,
+      uploadSuggestions
+    ]
+  )
 
   return <SuggestionsContext.Provider value={contextValue}>{children}</SuggestionsContext.Provider>
 }
