@@ -1,6 +1,6 @@
 import React, { useState } from "react"
-import { useStorageSync } from "@/hooks/useStorageSync"
-import KeyboardShortcut from "@/shared/ShortcutDisplay"
+import { useStorageSync } from "@/shared/hooks/useStorageSync"
+import KeyboardShortcut from "@/shared/components/ShortcutDisplay"
 import SyncStatus from "./LastSyncStatus"
 import StorageStat from "./StorageUsageInfo"
 import Header from "./Toolbar"

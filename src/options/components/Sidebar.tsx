@@ -1,5 +1,5 @@
 import React from "react"
-import KeyboardShortcut from "@/shared/ShortcutDisplay"
+import KeyboardShortcut from "@/shared/components/ShortcutDisplay"
 
 const Sidebar = () => {
   const manifestData = chrome.runtime.getManifest()
@@ -23,7 +23,7 @@ const Sidebar = () => {
         <div tabIndex={0} className="collapse collapse-arrow ">
           <div className="collapse-title font-bold select-none">❓ Change shortcut</div>
           <div className="collapse-content">
-            <p className="p-0 m-0">
+            <div className="p-0 m-0">
               To change the shortcut for this extension, please follow these steps:
               <ol>
                 <li>Open a new tab in your browser.</li>
@@ -39,7 +39,7 @@ const Sidebar = () => {
                 </li>
                 <li>Close the tab when you are done. Your new shortcut is now set!</li>
               </ol>
-            </p>
+            </div>
           </div>
         </div>
 

@@ -1,5 +1,5 @@
 import React from "react"
-import { useCommandShortcut } from "@/hooks/useCommandShortcut"
+import { useCommandShortcut } from "@/shared/hooks/useCommandShortcut"
 
 function ShortcutDisplay() {
   const shortcut = useCommandShortcut("openSwiftPaste")
