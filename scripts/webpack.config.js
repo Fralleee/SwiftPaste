@@ -63,7 +63,10 @@ module.exports = {
     ...getHtmlPlugins(["popup", "options"])
   ],
   resolve: {
-    extensions: [".tsx", ".ts", ".js"]
+    extensions: [".tsx", ".ts", ".js"],
+    alias: {
+      "@": path.resolve(__dirname, "../src")
+    }
   },
   output: {
     filename: "[name].js",

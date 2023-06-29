@@ -1,4 +1,4 @@
-import { validateSuggestion } from "../options/utils/suggestionsUtils"
+import { validateSuggestion } from "./suggestionsUtils"
 
 export async function syncStorage(): Promise<number> {
   try {

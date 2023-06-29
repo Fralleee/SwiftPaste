@@ -1,4 +1,4 @@
-import logger from "../shared/logger"
+import logger from "../utils/logger"
 import SwiftPasteSuggester from "./components/SwiftPasteSuggester"
 import { isValidElement } from "./utils/domUtils"
 

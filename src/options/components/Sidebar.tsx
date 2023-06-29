@@ -1,9 +1,7 @@
 import React from "react"
-import { useCommandShortcut } from "../../shared/useCommandShortcut"
+import KeyboardShortcut from "@/shared/ShortcutDisplay"
 
 const Sidebar = () => {
-  const shortcut = useCommandShortcut("openSwiftPaste")
-
   const manifestData = chrome.runtime.getManifest()
 
   return (
@@ -19,10 +17,7 @@ const Sidebar = () => {
         suggestions list.
       </p>
 
-      <div className="flex flex-col gap-2 items-center">
-        <p className="m-0 font-bold">Activate suggestions with</p>
-        <kbd className="kbd kbd-sm">{shortcut}</kbd>
-      </div>
+      <KeyboardShortcut />
 
       <div>
         <div tabIndex={0} className="collapse collapse-arrow ">
