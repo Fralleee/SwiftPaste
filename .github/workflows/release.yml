@@ -102,7 +102,7 @@ jobs:
       - name: Get commit messages
         id: get-commit-messages
         run: |
-          messages=$(git log $(git describe --tags $(git rev-list --tags --max-count=1))..HEAD --pretty=format:'%s' | tr '\n' ' ')
+          messages=$(git log $(git describe --tags $(git rev-list --tags --max-count=1))..HEAD --pretty=format:'- %s [`%h`](https://github.com/Fralleee/SwiftPaste/commit/%H)')
           echo "body=${messages}" >> $GITHUB_ENV
 
       - name: Create GitHub Release
