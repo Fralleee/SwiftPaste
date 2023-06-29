@@ -47,7 +47,7 @@ function Popup() {
   }
 
   const refreshStorage = async () => {
-    var syncTime = await syncStorage()
+    const syncTime = await syncStorage()
     setLastSyncTime(syncTime)
   }
 
@@ -87,7 +87,7 @@ function Popup() {
             </div>
           </div>
 
-          {lastSyncTime && (
+          {lastSyncTime > 0 && (
             <em className="mt-4 mb-1 block w-full text-xs text-center">Last synced {timeSince(new Date(lastSyncTime))} ago</em>
           )}
         </div>
